@@ -1,0 +1,37 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px auto;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  background: #999;
+}
+
+.flag {
+  background: #FFDC00;
+}
+
+.reveal {
+  background: #eee;
+}
+
+.mine {
+  background: #FF4136;
+}
+
+.flag.mine {
+  background: #2ECC40;
+}
