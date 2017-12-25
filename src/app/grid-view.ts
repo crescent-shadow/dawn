@@ -5,8 +5,11 @@ import { Cell } from './cell';
 
 
 export class GridView {
+  name: string = 'gridView';
+  title: string = '';
+  width: number = 320;
   canvas: JQuery<Element>;
-  private className: string = 'grid';
+  private className: string = 'grid-view';
   rows: number;
   cols: number;
   mines: number;
@@ -29,6 +32,7 @@ export class GridView {
     this.minesFound = 0;
     this.cellsRevealed = 0;
     this.cellsMine = [];
+    this.title = mode.name.toUpperCase();
     this.generateCells();
     this.generateMines();
     this.render();
@@ -37,7 +41,9 @@ export class GridView {
   private generateCanvas() {
     let canvas = $('<div/>');
 
-    canvas.addClass(this.className);
+    canvas
+      .addClass(this.className)
+      .hide();
     this.canvas = canvas;
   }
 
@@ -78,11 +84,17 @@ export class GridView {
   }
 
   render() {
+    let cellsWidth = (20 + 2) * this.cols;
+    this.width = cellsWidth + 20 * 2;
+    this.width = this.width < 320 ? 360 : this.width;
+    let cellsElement = $('<div>')
+      .addClass('cells')
+      .width(cellsWidth)
+      .append(this.cellElements);
     this.canvas
-      .append(this.cellElements)
-      .width((20 + 2) * this.cols)
+      .append(cellsElement)
       .on('contextmenu', '.cell', event => {
-        let element = $(event.target);
+        let element = $(event.currentTarget);
         let cell = element.data('cell');
 
         cell.flag(!cell.isFlagged);
@@ -92,7 +104,7 @@ export class GridView {
         ]);
       })
       .on('click', '.cell', event => {
-        let element = $(event.target);
+        let element = $(event.currentTarget);
         let cell = element.data('cell');
 
         if (cell.isMine) {
@@ -120,6 +132,7 @@ export class GridView {
     this.cellElements = [];
     this.canvas.empty();
     this.canvas.off('click contextmenu');
+    this.canvas.hide();
   }
 
   private isCompleted() {

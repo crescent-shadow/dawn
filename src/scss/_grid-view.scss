@@ -1,0 +1,41 @@
+.grid-view {
+  padding: 20px;
+}
+
+.cells {
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  background: #7FDBFF;
+
+  svg {
+    stroke: #000;
+    height: 14px;
+  }
+}
+
+.flag {
+  background: #FFDB00;
+}
+
+.reveal {
+  background: #787878;
+}
+
+.mine {
+  background: #FF5975;
+}
+
+.flag.mine {
+  background: #01FF70;
+}

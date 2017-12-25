@@ -1,5 +1,8 @@
 import * as $ from 'jquery';
 
+const ICON_FLAG = require('../assets/feather/flag.svg');
+const ICON_MINE = require('../assets/feather/x-circle.svg');
+
 export class Cell {
   element: JQuery<HTMLElement>;
   row: number;
@@ -31,12 +34,21 @@ export class Cell {
 
   flag(toggle) {
     this.isFlagged = toggle;
-    toggle ?
-      this.element.addClass('flag') :
-      this.element.removeClass('flag');
+
+    if (this.isFlagged) {
+      this.element
+        .addClass('flag')
+        .html(ICON_FLAG);
+    } else {
+      this.element
+        .removeClass('flag')
+        .html('');
+    }
   }
 
   mine() {
-    this.element.addClass('mine');
+    this.element
+      .addClass('mine')
+      .html(ICON_MINE);
   }
 }

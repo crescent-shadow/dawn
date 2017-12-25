@@ -1,26 +1,38 @@
 import * as $ from 'jquery';
 import { Events } from './events';
 import { Mode } from './typings/mode.interface';
-import { Menu } from './menu';
+import { Header } from './header';
 import { ModeView } from './mode-view';
 import { GridView } from './grid-view';
+import { Status } from './status';
 
 export class Game {
   canvas: JQuery<Element> = $('body');
-  menu: Menu;
+  header: Header;
+  $main: JQuery<Element>;
+  status: Status;
   modeView: ModeView;
   gridView: GridView;
 
   constructor() {
-    this.menu = new Menu();
+    this.header = new Header();
     this.modeView = new ModeView();
+    this.status = new Status();
     this.gridView = new GridView();
+
+    let $main = $('<main>');
+    $main
+      .append(this.status.canvas)
+      .append(this.modeView.canvas)
+      .append(this.gridView.canvas);
 
     this.events();
     this.canvas
-      .append(this.menu.canvas)
-      .append(this.modeView.canvas)
-      .append(this.gridView.canvas);
+      .addClass('background')
+      .append(this.header.canvas)
+      .append($main);
+    this.$main = $main;
+    this.activate(this.modeView);
   }
 
   events() {
@@ -36,13 +48,17 @@ export class Game {
 
   selectMode() {
     this.gridView.clear();
-    this.menu.resetStatus();
+    this.status.hideState();
+    this.status.toggleRestartButton(false);
+    this.status.updateResult();
     this.activate(this.modeView);
   }
 
   start(event, mode: Mode) {
     this.gridView.init(mode);
-    this.menu.initStatus(this.gridView.mines);
+    this.status.initState(this.gridView.mines);
+    this.status.toggleRestartButton(true);
+    this.status.updateResult(0);
     this.activate(this.gridView);
   }
 
@@ -50,20 +66,23 @@ export class Game {
     this.modeView.canvas.hide();
     this.modeView.canvas.hide();
 
+    this.$main.width(view.width);
+    this.status.updateMode(view.title);
+
     view.canvas.show();
   }
 
   defeat() {
     this.gridView.freeze();
-    window.alert('Defeat');
+    this.status.updateResult(2);
   }
 
   victory() {
     this.gridView.freeze();
-    window.alert('Victory');
+    this.status.updateResult(1);
   }
 
-  update(event, progress: number) {
-    this.menu.updateStatus(progress);
+  update(event, found: number) {
+    this.status.updateState(found);
   }
 }

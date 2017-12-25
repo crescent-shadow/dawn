@@ -1,0 +1,56 @@
+$fontPath: "../assets/fonts";
+
+// Montserrat Light/Light Italic
+// --------------------------------------------------
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 300;
+  font-style: normal;
+  src: url($fontPath + '/Montserrat-Light.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 300;
+  font-style: italic;
+  src: url($fontPath + '/Montserrat-LightItalic.ttf') format('truetype');
+}
+
+
+
+// Montserrat Normal/Normal Italic
+// --------------------------------------------------
+@font-face {
+  font-family: "Montserrat";
+  font-weight: normal;
+  font-style: normal;
+  src: url($fontPath + '/Montserrat-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: normal;
+  font-style: italic;
+  src: url($fontPath + '/Montserrat-Italic.ttf') format('truetype');
+}
+
+
+
+// Montserrat Bold/Bold Italic
+// --------------------------------------------------
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-style: normal;
+  src: url($fontPath + '/Montserrat-Bold.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-style: italic;
+  src: url($fontPath + '/Montserrat-BoldItalic.ttf') format('truetype');
+}

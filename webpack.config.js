@@ -27,6 +27,18 @@ module.exports = {
           use: ['css-loader', 'sass-loader'],
           fallback: 'style-loader'
         })
+      },
+      {
+        test: /assets\/images\/.*\.(jpg|png|gif|jpeg)$/,
+        use: 'file-loader'
+      },
+      {
+        test: /assets\/feather\/.*\.svg$/,
+        use: 'svg-inline-loader'
+      },
+      {
+        test: /assets\/fonts\/.*\.(eot|svg|ttf|woff|woff2)$/,
+        use: 'file-loader'
       }
     ]
   },

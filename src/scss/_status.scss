@@ -1,0 +1,71 @@
+.status {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  color: #000;
+  background: white;
+}
+
+.button-restart {
+  z-index: -1;
+  display: flex;
+  position: absolute;
+  left: 0;
+  align-items: center;
+  padding: 15px;
+  width: 90px;
+  color: white;
+  border: none;
+  background: #000;
+  cursor: pointer;
+  outline: none;
+  transition: all .2s ease-in;
+
+  svg {
+    margin-right: 8px;
+    width: 14px;
+    stroke: currentColor;
+    transition: all .3s ease-in-out;
+  }
+
+  &:hover {
+    svg { transform: rotate(360deg); }
+    color: #FFDC00;
+  }
+}
+
+.status-mode {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+@keyframes breath {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.status-result {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  svg {
+    display: block;
+    margin-right: 2px;
+    width: 13px;
+    color: currentColor;
+  }
+}
+
+.status-result-in-progress {
+  animation-name: breath;
+  animation-duration: 3s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+.status-result-victory { color: #2ECC40; }
+.status-result-defeat { color: #FF4136; }

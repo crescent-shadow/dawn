@@ -1,0 +1,16 @@
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+  height: 40px;
+  color: #ccc;
+  background: #000;
+  box-shadow: 0 1px 1px 0 #111;
+}
+
+.logo {
+  color: #AAAAAA;
+  svg { height: 20px; }
+}
