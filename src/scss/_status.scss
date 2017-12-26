@@ -3,7 +3,7 @@
   position: relative;
   align-items: center;
   justify-content: space-between;
-  padding: 15px;
+  padding: 10px;
   color: #000;
   background: white;
 }
@@ -14,7 +14,7 @@
   position: absolute;
   left: 0;
   align-items: center;
-  padding: 15px;
+  padding: 10px;
   width: 90px;
   color: white;
   border: none;
@@ -24,8 +24,8 @@
   transition: all .2s ease-in;
 
   svg {
-    margin-right: 8px;
-    width: 14px;
+    margin-right: 4px;
+    width: 13px;
     stroke: currentColor;
     transition: all .3s ease-in-out;
   }
@@ -42,16 +42,27 @@
   font-weight: bold;
 }
 
+.status-state {
+  color: #666;
+}
+.status-state-found,
+.status-state-total {
+  font-size: 13px;
+}
+
 @keyframes breath {
   0% { opacity: 0; }
   50% { opacity: 1; }
   100% { opacity: 0; }
 }
 
+.status-result-info {
+  text-align: right;
+}
+
 .status-result {
   display: flex;
   align-items: center;
-  margin-left: 10px;
   svg {
     display: block;
     margin-right: 2px;
@@ -60,10 +71,10 @@
   }
 }
 
-.status-result-in-progress {
+.status-result-in-progress svg {
   animation-name: breath;
   animation-duration: 3s;
-  animation-timing-function: ease;
+  animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
 
@@ -71,7 +82,10 @@
 .status-result-defeat { color: #FF4136; }
 
 .status-timer {
-  margin-left: 3px;
+  letter-spacing: 1px;
+  font-size: 11px;
+  color: #666;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 .status-state {

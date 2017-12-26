@@ -19,18 +19,15 @@ export class Status {
   stateElements: StateElements = {};
 
   constructor() {
-    this.timer = new Timer();
-    this.generateModeElement();
     this.generateRestartButton();
-    this.generateResultElement();
-    this.generateStatesElements();
+    let $modeInfo = this.generateModeInfoElement();
+    let $resultInfo = this.generateResultInfoElement();
+
     this.canvas
       .addClass('status')
       .append(this.$restartButton)
-      .append(this.$mode)
-      .append(this.$result)
-      .append(this.timer.canvas)
-      .append(this.stateElements.root);
+      .append($modeInfo)
+      .append($resultInfo);
   }
 
   reset() {
@@ -47,12 +44,10 @@ export class Status {
     this.timer.tick();
   }
 
-  generateModeElement() {
-    this.$mode = $('<div>').addClass('status-mode');
-  }
 
+  // Restart Button
   generateRestartButton() {
-    const label = $(`<span>Restart</span>`);
+    const label = $(`<span>RESTART</span>`);
     const icon = feather.icons['rotate-cw'].toSvg();
 
     this.$restartButton = $('<button>')
@@ -70,46 +65,28 @@ export class Status {
       this.$restartButton.css({ left: 0, zIndex: -1 });
   }
 
-  generateResultElement() {
-    this.$result = $('<div>')
-      .addClass('status-result');
+
+  // Mode Info
+  generateModeInfoElement() {
+    let $modeInfo = $('<div>').addClass('status-mode-info');
+    this.generateModeElement();
+    this.generateStatesElements();
+    return $modeInfo
+      .append(this.$mode)
+      .append(this.stateElements.root);
   }
 
-  updateResult(result?: number) {
-    const iconInProgress = feather.icons.circle.toSvg();
-    const iconVictory = feather.icons['check-circle'].toSvg();
-    const iconDefeat = feather.icons['x-circle'].toSvg();
+  generateModeElement() {
+    this.$mode = $('<div>').addClass('status-mode');
+  }
 
-    this.$result
-      .empty()
-      .removeClass('status-result-in-progress')
-      .removeClass('status-result-victory')
-      .removeClass('status-result-defeat');
-
-    switch (result) {
-      case ResultsEnum.InProgress:
-        this.$result
-          .addClass('status-result-in-progress')
-          .append(iconInProgress);
-        break;
-      case ResultsEnum.Victory:
-        this.$result
-          .addClass('status-result-victory')
-          .append(iconVictory)
-          .append(' Victory');
-        break;
-      case ResultsEnum.Defeat:
-        this.$result
-          .addClass('status-result-defeat')
-          .append(iconDefeat)
-          .append(' Defeat');
-        break;
-    }
+  updateMode(modeLabel: string) {
+    this.$mode.html(modeLabel);
   }
 
   generateStatesElements() {
-    const stateClass = 'main-header-state';
-    let $stateRoot = $('<div>').addClass('status-state');
+    const stateClass = 'status-state';
+    let $stateRoot = $('<div>').addClass(stateClass);
     let $stateFound = $('<span>').addClass(stateClass + '-found');
     let $stateTotal = $('<span>').addClass(stateClass + '-total');
 
@@ -125,10 +102,6 @@ export class Status {
       .append(' MINES');
   }
 
-  updateMode(modeLabel: string) {
-    this.$mode.html(modeLabel);
-  }
-
   initState(total: number) {
     this.stateElements.found.html('0');
     this.stateElements.total.html(total.toString());
@@ -141,5 +114,58 @@ export class Status {
 
   hideState() {
     this.stateElements.root.hide();
+  }
+
+
+  // Result Info
+  generateResultInfoElement() {
+    const $resultInfo = $('<div>').addClass('status-result-info');
+    this.generateResultElement();
+    this.generateTimerElement();
+    return $resultInfo
+      .append(this.$result)
+      .append(this.timer.canvas);
+  }
+
+  generateResultElement() {
+    this.$result = $('<div>')
+      .addClass('status-result');
+  }
+
+  updateResult(result?: number) {
+    const iconInProgress = feather.icons['more-horizontal'].toSvg();
+    const iconVictory = feather.icons['check-square'].toSvg();
+    const iconDefeat = feather.icons['x-square'].toSvg();
+
+    this.$result
+      .empty()
+      .removeClass('status-result-in-progress')
+      .removeClass('status-result-victory')
+      .removeClass('status-result-defeat');
+
+    switch (result) {
+      case ResultsEnum.InProgress:
+        this.$result
+          .addClass('status-result-in-progress')
+          .append(iconInProgress)
+          .append(' PROGRESS');
+        break;
+      case ResultsEnum.Victory:
+        this.$result
+          .addClass('status-result-victory')
+          .append(iconVictory)
+          .append(' VICTORY');
+        break;
+      case ResultsEnum.Defeat:
+        this.$result
+          .addClass('status-result-defeat')
+          .append(iconDefeat)
+          .append(' DEFEAT');
+        break;
+    }
+  }
+
+  generateTimerElement() {
+    this.timer = new Timer();
   }
 }

@@ -49,7 +49,9 @@ export class Cell {
   }
 
   mine() {
-    const mineIcon = feather.icons['x-circle'].toSvg();
+    const mineIcon = this.isFlagged ?
+      feather.icons['check-circle'].toSvg() :
+      feather.icons['x-circle'].toSvg();
     this.element
       .addClass(this.classNames.mine)
       .html(mineIcon);
