@@ -1,26 +1,27 @@
 import * as $ from 'jquery';
-
-const ICON_FLAG = require('../assets/feather/flag.svg');
-const ICON_MINE = require('../assets/feather/x-circle.svg');
+import * as feather from 'feather-icons';
 
 export class Cell {
   element: JQuery<HTMLElement>;
   row: number;
   col: number;
-  value: number;
-  isMine: boolean;
-  isRevealed: boolean;
-  isFlagged: boolean;
+  value: number = 0;
+  isMine: boolean = false;
+  isRevealed: boolean = false;
+  isFlagged: boolean = false;
+  classNames: any = {
+    cell: 'cell',
+    reveal: 'reveal',
+    flag: 'flag',
+    mine: 'mine'
+  };
 
   constructor(row, col) {
     this.row = row;
     this.col = col;
-    this.value = 0;
-    this.isMine = false;
-    this.isRevealed = false;
-    this.isFlagged = false;
-    this.element = $('<span />').addClass('cell');
-    this.element.data('cell', this);
+    this.element = $('<span />')
+        .addClass(this.classNames.cell)
+        .data('cell', this);
   }
 
   reveal() {
@@ -29,26 +30,28 @@ export class Cell {
     this.isRevealed = true;
     this.element
       .html(value)
-      .addClass('reveal');
+      .addClass(this.classNames.reveal);
   }
 
   flag(toggle) {
+    const flagIcon = feather.icons.flag.toSvg();
     this.isFlagged = toggle;
 
     if (this.isFlagged) {
       this.element
-        .addClass('flag')
-        .html(ICON_FLAG);
+        .addClass(this.classNames.flag)
+        .html(flagIcon);
     } else {
       this.element
-        .removeClass('flag')
+        .removeClass(this.classNames.flag)
         .html('');
     }
   }
 
   mine() {
+    const mineIcon = feather.icons['x-circle'].toSvg();
     this.element
-      .addClass('mine')
-      .html(ICON_MINE);
+      .addClass(this.classNames.mine)
+      .html(mineIcon);
   }
 }

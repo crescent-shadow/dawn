@@ -1,10 +1,8 @@
 import * as $ from 'jquery';
+import * as feather from 'feather-icons';
 import { Events } from './events';
-
-const ICON_RESULT_IN_PROGRESS = require('../assets/feather/circle.svg');
-const ICON_RESULT_VICTORY = require('../assets/feather/check-circle.svg');
-const ICON_RESULT_DEFEAT = require('../assets/feather/x-circle.svg');
-const ICON_RESTART = require('../assets/feather/rotate-cw.svg');
+import { ResultsEnum } from './results.enum';
+import { Timer } from './timer';
 
 interface StateElements {
   root?: JQuery<Element>;
@@ -16,10 +14,12 @@ export class Status {
   canvas: JQuery<Element> = $('<div>');
   $mode: JQuery<Element>;
   $result: JQuery<Element>;
+  timer: Timer;
   $restartButton: JQuery<Element>;
   stateElements: StateElements = {};
 
   constructor() {
+    this.timer = new Timer();
     this.generateModeElement();
     this.generateRestartButton();
     this.generateResultElement();
@@ -29,7 +29,22 @@ export class Status {
       .append(this.$restartButton)
       .append(this.$mode)
       .append(this.$result)
+      .append(this.timer.canvas)
       .append(this.stateElements.root);
+  }
+
+  reset() {
+    this.hideState();
+    this.toggleRestartButton(false);
+    this.updateResult();
+    this.timer.reset();
+  }
+
+  init(mines) {
+    this.initState(mines);
+    this.toggleRestartButton(true);
+    this.updateResult(ResultsEnum.InProgress);
+    this.timer.tick();
   }
 
   generateModeElement() {
@@ -37,11 +52,11 @@ export class Status {
   }
 
   generateRestartButton() {
-    this.$restartButton = $('<button>');
-    let label = $(`<span>Restart</span>`);
+    const label = $(`<span>Restart</span>`);
+    const icon = feather.icons['rotate-cw'].toSvg();
 
-    this.$restartButton
-      .append(ICON_RESTART)
+    this.$restartButton = $('<button>')
+      .append(icon)
       .append(label)
       .addClass('button-restart')
       .on('click', () => {
@@ -61,6 +76,10 @@ export class Status {
   }
 
   updateResult(result?: number) {
+    const iconInProgress = feather.icons.circle.toSvg();
+    const iconVictory = feather.icons['check-circle'].toSvg();
+    const iconDefeat = feather.icons['x-circle'].toSvg();
+
     this.$result
       .empty()
       .removeClass('status-result-in-progress')
@@ -68,21 +87,21 @@ export class Status {
       .removeClass('status-result-defeat');
 
     switch (result) {
-      case 0:
+      case ResultsEnum.InProgress:
         this.$result
           .addClass('status-result-in-progress')
-          .append(ICON_RESULT_IN_PROGRESS);
+          .append(iconInProgress);
         break;
-      case 1:
+      case ResultsEnum.Victory:
         this.$result
           .addClass('status-result-victory')
-          .append(ICON_RESULT_VICTORY)
+          .append(iconVictory)
           .append(' Victory');
         break;
-      case 2:
+      case ResultsEnum.Defeat:
         this.$result
           .addClass('status-result-defeat')
-          .append(ICON_RESULT_DEFEAT)
+          .append(iconDefeat)
           .append(' Defeat');
         break;
     }

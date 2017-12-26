@@ -1,9 +1,9 @@
 import * as $ from 'jquery';
+import * as feather from 'feather-icons';
 import { Events } from './events';
 import { Mode } from './typings/mode.interface';
 
 export class ModeView {
-  name: string = 'modeView';
   title: string = 'MODE SELECT';
   width: number = 320;
   canvas: JQuery<Element>;
@@ -33,7 +33,7 @@ export class ModeView {
         let element = $(event.currentTarget);
         $(document).trigger(Events.GAME_START, [
           element.data(this.dataKey)
-        ])
+        ]);
       })
       .hide();
     this.canvas = canvas;
@@ -52,7 +52,7 @@ export class ModeView {
 
   getSelector(mode): JQuery<Element> {
     let button = $('<button />');
-    let icon = require(`../assets/feather/${mode.icon}.svg`);
+    let icon = feather.icons[mode.icon].toSvg();
     let label = $(`<span>${mode.name.toUpperCase()}</span>`);
     button
       .addClass(this.classNames.selector)

@@ -5,6 +5,7 @@ import { Header } from './header';
 import { ModeView } from './mode-view';
 import { GridView } from './grid-view';
 import { Status } from './status';
+import { ResultsEnum } from './results.enum';
 
 export class Game {
   canvas: JQuery<Element> = $('body');
@@ -48,17 +49,13 @@ export class Game {
 
   selectMode() {
     this.gridView.clear();
-    this.status.hideState();
-    this.status.toggleRestartButton(false);
-    this.status.updateResult();
+    this.status.reset();
     this.activate(this.modeView);
   }
 
   start(event, mode: Mode) {
     this.gridView.init(mode);
-    this.status.initState(this.gridView.mines);
-    this.status.toggleRestartButton(true);
-    this.status.updateResult(0);
+    this.status.init(this.gridView.mines);
     this.activate(this.gridView);
   }
 
@@ -74,12 +71,14 @@ export class Game {
 
   defeat() {
     this.gridView.freeze();
-    this.status.updateResult(2);
+    this.status.timer.stop();
+    this.status.updateResult(ResultsEnum.Defeat);
   }
 
   victory() {
     this.gridView.freeze();
-    this.status.updateResult(1);
+    this.status.timer.stop();
+    this.status.updateResult(ResultsEnum.Victory);
   }
 
   update(event, found: number) {

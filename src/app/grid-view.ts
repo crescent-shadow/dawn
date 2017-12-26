@@ -5,7 +5,6 @@ import { Cell } from './cell';
 
 
 export class GridView {
-  name: string = 'gridView';
   title: string = '';
   width: number = 320;
   canvas: JQuery<Element>;

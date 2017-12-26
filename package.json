@@ -4,22 +4,21 @@
   "description": "The code light of dawn.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "repository": "https://github.com/crescent-shadow/dawn.git",
   "author": "Vi",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "@types/node": "^8.5.1",
-    "file-loader": "^1.1.6",
-    "jquery": "^3.2.1"
-  },
   "devDependencies": {
     "@types/jquery": "^3.2.17",
+    "@types/node": "^8.5.1",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
+    "jquery": "^3.2.1",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
@@ -27,6 +26,7 @@
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7"
+    "webpack-dev-server": "^2.9.7",
+    "feather-icons": "^4.5.0"
   }
 }
