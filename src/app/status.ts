@@ -1,8 +1,9 @@
 import * as $ from 'jquery';
 import * as feather from 'feather-icons';
-import { Events } from './events';
 import { ResultsEnum } from './results.enum';
-import { Timer } from './timer';
+import { Restarter } from './status/restarter';
+import { Timer } from './status/timer';
+
 
 interface StateElements {
   root?: JQuery<Element>;
@@ -14,57 +15,36 @@ export class Status {
   canvas: JQuery<Element> = $('<div>');
   $mode: JQuery<Element>;
   $result: JQuery<Element>;
+  restarter: Restarter;
   timer: Timer;
-  $restartButton: JQuery<Element>;
   stateElements: StateElements = {};
 
   constructor() {
-    this.generateRestartButton();
     let $modeInfo = this.generateModeInfoElement();
     let $resultInfo = this.generateResultInfoElement();
 
+    this.restarter = new Restarter();
+
     this.canvas
       .addClass('status')
-      .append(this.$restartButton)
+      .append(this.restarter.canvas)
       .append($modeInfo)
       .append($resultInfo);
   }
 
   reset() {
     this.hideState();
-    this.toggleRestartButton(false);
+    this.restarter.hide();
     this.updateResult();
     this.timer.reset();
   }
 
   init(mines) {
     this.initState(mines);
-    this.toggleRestartButton(true);
+    this.restarter.show();
     this.updateResult(ResultsEnum.InProgress);
     this.timer.tick();
   }
-
-
-  // Restart Button
-  generateRestartButton() {
-    const label = $(`<span>RESTART</span>`);
-    const icon = feather.icons['rotate-cw'].toSvg();
-
-    this.$restartButton = $('<button>')
-      .append(icon)
-      .append(label)
-      .addClass('button-restart')
-      .on('click', () => {
-        $(document).trigger(Events.GAME_NEW);
-      });
-  }
-
-  toggleRestartButton(toShow: boolean) {
-    toShow ?
-      this.$restartButton.css({ left: -90, zIndex: 1 }) :
-      this.$restartButton.css({ left: 0, zIndex: -1 });
-  }
-
 
   // Mode Info
   generateModeInfoElement() {
