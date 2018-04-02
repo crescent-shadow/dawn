@@ -183,6 +183,7 @@ export class GridView {
     if (this.cells[row]) {
       return this.cells[row][col];
     }
+    return null;
   }
 
   private RevealMines() {
