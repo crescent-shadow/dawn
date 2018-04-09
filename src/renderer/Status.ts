@@ -1,27 +1,30 @@
-import * as $ from 'jquery';
+/**
+ * @fileOverview Status Class.
+ */
+
 import * as feather from 'feather-icons';
+import * as $ from 'jquery';
 import { ResultsEnum } from './results.enum';
-import { Restarter } from './status/restarter';
-import { Timer } from './status/timer';
+import { Restarter } from './status/Restarter';
+import { Timer } from './status/Timer';
 
-
-interface StateElements {
+interface IStateElements {
   root?: JQuery<Element>;
   found?: JQuery<Element>;
   total?: JQuery<Element>;
 }
 
 export class Status {
-  canvas: JQuery<Element> = $('<div>');
-  $mode: JQuery<Element>;
-  $result: JQuery<Element>;
-  restarter: Restarter;
-  timer: Timer;
-  stateElements: StateElements = {};
+  public canvas: JQuery<Element> = $('<div>');
+  public $mode: JQuery<Element>;
+  public $result: JQuery<Element>;
+  public restarter: Restarter;
+  public timer: Timer;
+  public stateElements: IStateElements = {};
 
   constructor() {
-    let $modeInfo = this.generateModeInfoElement();
-    let $resultInfo = this.generateResultInfoElement();
+    const $modeInfo: JQuery = this.generateModeInfoElement();
+    const $resultInfo: JQuery = this.generateResultInfoElement();
 
     this.restarter = new Restarter();
 
@@ -32,14 +35,14 @@ export class Status {
       .append($resultInfo);
   }
 
-  reset() {
+  public reset(): void {
     this.hideState();
     this.restarter.hide();
     this.updateResult();
     this.timer.reset();
   }
 
-  init(mines) {
+  public init(mines: number): void {
     this.initState(mines);
     this.restarter.show();
     this.updateResult(ResultsEnum.InProgress);
@@ -47,28 +50,29 @@ export class Status {
   }
 
   // Mode Info
-  generateModeInfoElement() {
-    let $modeInfo = $('<div>').addClass('status-mode-info');
+  public generateModeInfoElement(): JQuery {
+    const $modeInfo: JQuery = $('<div>').addClass('status-mode-info');
     this.generateModeElement();
     this.generateStatesElements();
+
     return $modeInfo
       .append(this.$mode)
       .append(this.stateElements.root);
   }
 
-  generateModeElement() {
+  public generateModeElement(): void {
     this.$mode = $('<div>').addClass('status-mode');
   }
 
-  updateMode(modeLabel: string) {
+  public updateMode(modeLabel: string): void {
     this.$mode.html(modeLabel);
   }
 
-  generateStatesElements() {
-    const stateClass = 'status-state';
-    let $stateRoot = $('<div>').addClass(stateClass);
-    let $stateFound = $('<span>').addClass(stateClass + '-found');
-    let $stateTotal = $('<span>').addClass(stateClass + '-total');
+  public generateStatesElements(): void {
+    const stateClass: string = 'status-state';
+    const $stateRoot: JQuery = $('<div>').addClass(stateClass);
+    const $stateFound: JQuery = $('<span>').addClass(`${stateClass}-found`);
+    const $stateTotal: JQuery = $('<span>').addClass(`${stateClass}-total`);
 
     this.stateElements.root = $stateRoot;
     this.stateElements.found = $stateFound;
@@ -82,40 +86,40 @@ export class Status {
       .append(' MINES');
   }
 
-  initState(total: number) {
+  public initState(total: number): void {
     this.stateElements.found.html('0');
     this.stateElements.total.html(total.toString());
     this.stateElements.root.show();
   }
 
-  updateState(found: number) {
+  public updateState(found: number): void {
     this.stateElements.found.html(found.toString());
   }
 
-  hideState() {
+  public hideState(): void {
     this.stateElements.root.hide();
   }
 
-
   // Result Info
-  generateResultInfoElement() {
-    const $resultInfo = $('<div>').addClass('status-result-info');
+  public generateResultInfoElement(): JQuery {
+    const $resultInfo: JQuery = $('<div>').addClass('status-result-info');
     this.generateResultElement();
     this.generateTimerElement();
+
     return $resultInfo
       .append(this.$result)
       .append(this.timer.canvas);
   }
 
-  generateResultElement() {
+  public generateResultElement(): void {
     this.$result = $('<div>')
       .addClass('status-result');
   }
 
-  updateResult(result?: number) {
-    const iconInProgress = feather.icons['more-horizontal'].toSvg();
-    const iconVictory = feather.icons['check-square'].toSvg();
-    const iconDefeat = feather.icons['x-square'].toSvg();
+  public updateResult(result?: number): void {
+    const iconInProgress: string = feather.icons['more-horizontal'].toSvg();
+    const iconVictory: string = feather.icons['check-square'].toSvg();
+    const iconDefeat: string = feather.icons['x-square'].toSvg();
 
     this.$result
       .empty()
@@ -142,10 +146,11 @@ export class Status {
           .append(iconDefeat)
           .append(' DEFEAT');
         break;
+      default:
     }
   }
 
-  generateTimerElement() {
+  public generateTimerElement(): void {
     this.timer = new Timer();
   }
 }

@@ -1,14 +1,18 @@
+/**
+ * @fileOverview Main Process.
+ */
+
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const isDevelopment: boolean = process.env.NODE_ENV !== 'production';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow: BrowserWindow;
 
-function createWindow() {
+function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow();
 

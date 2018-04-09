@@ -1,21 +1,30 @@
-import * as $ from 'jquery';
+/**
+ * @fileOverview ModeView Class.
+ */
+
 import * as feather from 'feather-icons';
+import * as $ from 'jquery';
 import { Events } from './events';
-import { Mode } from './typings/mode.interface';
+import { IMode } from './typings/mode.interface';
 
 export class ModeView {
-  title: string = 'MODE SELECT';
-  width: number = 320;
-  canvas: JQuery<Element>;
-  dataKey: string = 'mode';
-  classNames = {
+  public title: string = 'MODE SELECT';
+  public width: number = 320;
+  public canvas: JQuery<Element>;
+  public dataKey: string = 'mode';
+  public classNames: {
+    root: string;
+    title: string;
+    selectorContainer: string;
+    selector: string;
+  } = {
     root: 'mode-view',
     title: 'mode-view-title',
     selectorContainer: 'mode-selectors',
     selector: 'mode-selector'
   };
 
-  modes: Mode[] = [
+  public modes: IMode[] = [
     { name: 'easy', rows: 8, cols: 8, mines: 10, icon: 'cloud' },
     { name: 'normal', rows: 16, cols: 16, mines: 40, icon: 'cloud-rain' },
     { name: 'hard', rows: 16, cols: 30, mines: 99, icon: 'cloud-snow' },
@@ -23,14 +32,14 @@ export class ModeView {
   ];
 
   constructor() {
-    let canvas = $('<div/>');
-    let selectorsElement = this.getSelectors();
+    const canvas: JQuery = $('<div/>');
+    const selectorsElement: JQuery<Element> = this.getSelectors();
 
     canvas
       .addClass(this.classNames.root)
       .append(selectorsElement)
-      .on('click', `.${this.classNames.selector}`, (event) => {
-        let element = $(event.currentTarget);
+      .on('click', `.${this.classNames.selector}`, (event: JQuery.Event) => {
+        const element: JQuery = $(event.currentTarget);
         $(document).trigger(Events.GAME_START, [
           element.data(this.dataKey)
         ]);
@@ -39,27 +48,28 @@ export class ModeView {
     this.canvas = canvas;
   }
 
-  getSelectors() {
-    let container = $(`<div>`)
+  public getSelectors(): JQuery<Element> {
+    const container: JQuery = $('<div>')
       .addClass(this.classNames.selectorContainer);
-    let selectors = this.modes.map(mode => {
+    const selectors: JQuery<Element>[] = this.modes.map((mode: IMode) => {
       return this.getSelector(mode);
     });
-
     container.append(selectors);
+
     return container;
   }
 
-  getSelector(mode): JQuery<Element> {
-    let button = $('<button />');
-    let icon = feather.icons[mode.icon].toSvg();
-    let label = $(`<span>${mode.name.toUpperCase()}</span>`);
+  public getSelector(mode: IMode): JQuery<Element> {
+    const button: JQuery = $('<button />');
+    const icon: string = feather.icons[mode.icon].toSvg();
+    const label: JQuery = $(`<span>${mode.name.toUpperCase()}</span>`);
     button
       .addClass(this.classNames.selector)
       .addClass(`${this.classNames.selector}-${mode.name}`)
       .data(this.dataKey, mode)
       .append(icon)
       .append(label);
+
     return button;
   }
 }

@@ -1,13 +1,17 @@
-import * as $ from "jquery";
+/**
+ * @fileOverview Restarter Class.
+ */
+
 import * as feather from 'feather-icons';
-import { Events } from '../events';
+import * as $ from 'jquery';
+import { Events } from '../Events';
 
 export class Restarter {
-  canvas: JQuery<Element> = $('<button>');
+  public canvas: JQuery<Element> = $('<button>');
 
   constructor() {
-    const label = $(`<span>RESTART</span>`);
-    const icon = feather.icons['arrow-left'].toSvg();
+    const label: JQuery = $('<span>RESTART</span>');
+    const icon: string = feather.icons['arrow-left'].toSvg();
 
     this.canvas
       .append(icon)
@@ -18,11 +22,11 @@ export class Restarter {
       });
   }
 
-  show() {
+  public show(): void {
     this.canvas.css({ left: -90, zIndex: 1 });
   }
 
-  hide() {
+  public hide(): void {
     this.canvas.css({ left: 0, zIndex: -1 });
   }
 }

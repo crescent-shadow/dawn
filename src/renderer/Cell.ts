@@ -1,22 +1,31 @@
-import * as $ from 'jquery';
+/**
+ * @fileOverview Cell class.
+ */
+
 import * as feather from 'feather-icons';
+import * as $ from 'jquery';
 
 export class Cell {
-  element: JQuery<HTMLElement>;
-  row: number;
-  col: number;
-  value: number = 0;
-  isMine: boolean = false;
-  isRevealed: boolean = false;
-  isFlagged: boolean = false;
-  classNames: any = {
+  public element: JQuery;
+  public row: number;
+  public col: number;
+  public value: number = 0;
+  public isMine: boolean = false;
+  public isRevealed: boolean = false;
+  public isFlagged: boolean = false;
+  public classNames: {
+    cell: string;
+    reveal: string;
+    flag: string;
+    mine: string;
+  } = {
     cell: 'cell',
     reveal: 'reveal',
     flag: 'flag',
     mine: 'mine'
   };
 
-  constructor(row, col) {
+  constructor(row: number, col: number) {
     this.row = row;
     this.col = col;
     this.element = $('<span />')
@@ -24,8 +33,8 @@ export class Cell {
         .data('cell', this);
   }
 
-  reveal() {
-    let value = this.value > 0 ? this.value.toString() : '';
+  public reveal(): void {
+    const value: string = this.value > 0 ? this.value.toString() : '';
 
     this.isRevealed = true;
     this.element
@@ -33,8 +42,8 @@ export class Cell {
       .addClass(this.classNames.reveal);
   }
 
-  flag(toggle) {
-    const flagIcon = feather.icons.flag.toSvg();
+  public flag(toggle: boolean): void {
+    const flagIcon: string = feather.icons.flag.toSvg();
     this.isFlagged = toggle;
 
     if (this.isFlagged) {
@@ -48,8 +57,8 @@ export class Cell {
     }
   }
 
-  mine() {
-    const mineIcon = this.isFlagged ?
+  public mine(): void {
+    const mineIcon: string = this.isFlagged ?
       feather.icons['check-circle'].toSvg() :
       feather.icons['x-circle'].toSvg();
     this.element

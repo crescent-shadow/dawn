@@ -1,40 +1,47 @@
+/**
+ * @fileOverview Timer Class.
+ */
+
 import * as $ from 'jquery';
 
 export class Timer {
   public value: number = 0;
   public canvas: JQuery<Element>;
-  private classNames: any = {
+  private classNames: { timer: string } = {
     timer: 'status-timer'
   };
-  private timerId;
+  private timerId: number;
 
   constructor() {
     this.canvas = $('<div>').addClass(this.classNames.timer);
   }
 
-  reset() {
+  public reset(): void {
     this.value = 0;
     this.stop();
     this.canvas.empty();
   }
 
-  stop() {
+  public stop(): void {
     clearTimeout(this.timerId);
   }
 
-  tick() {
+  public tick(): void {
     if (this.value >= Number.MAX_VALUE) {
       this.canvas.html('--:--');
+
       return;
     }
-    this.value++;
+    this.value += 1;
     this.canvas.html(this.display());
     this.timerId = setTimeout(this.tick.bind(this), 1000);
   }
 
-  display() {
-    let m = Math.floor((this.value % 3600) / 60);
-    let s = Math.max(Math.floor((this.value % 3600) % 60), 0);
-    return m.toString() + ":" + (s < 10 ? "0" + s.toString() : s.toString());
+  public display(): string {
+    const m: number = Math.floor((this.value % 3600) / 60);
+    const s: number = Math.max(Math.floor((this.value % 3600) % 60), 0);
+    const seconds: string = s < 10 ? `0${s.toString()}` : s.toString();
+
+    return `${m.toString()}:${seconds}`;
   }
 }

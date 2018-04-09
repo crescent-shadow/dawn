@@ -1,4 +1,8 @@
-require('./scss/main.scss');
+/**
+ * @fileOverview Renderer Entry.
+ */
 import { Game } from './game';
+import './scss/main.scss';
 
-new Game();
+const game: Game = new Game();
+game.init();

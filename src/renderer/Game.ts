@@ -1,27 +1,33 @@
+/**
+ * @fileOverview Game.
+ */
+
 import * as $ from 'jquery';
-import { Events } from './events';
-import { Mode } from './typings/mode.interface';
-import { Header } from './header';
-import { ModeView } from './mode-view';
-import { GridView } from './grid-view';
-import { Status } from './status';
+import { Events } from './Events';
+import { GridView } from './GridView';
+import { Header } from './Header';
+import { ModeView } from './ModeView';
 import { ResultsEnum } from './results.enum';
+import { Status } from './status';
+import { IMode } from './typings/mode.interface';
 
 export class Game {
-  canvas: JQuery<Element> = $('body');
-  header: Header;
-  $main: JQuery<Element>;
-  status: Status;
-  modeView: ModeView;
-  gridView: GridView;
+  public canvas: JQuery<Element> = $('body');
+  public header: Header;
+  public $main: JQuery<Element>;
+  public status: Status;
+  public modeView: ModeView;
+  public gridView: GridView;
 
   constructor() {
     this.header = new Header();
     this.modeView = new ModeView();
     this.status = new Status();
     this.gridView = new GridView();
+  }
 
-    let $main = $('<main>');
+  public init(): void {
+    const $main: JQuery = $('<main>');
     $main
       .append(this.status.canvas)
       .append(this.modeView.canvas)
@@ -36,7 +42,7 @@ export class Game {
     this.activate(this.modeView);
   }
 
-  events() {
+  private events(): void {
     $(window).on('contextmenu', false);
 
     $(document)
@@ -47,19 +53,19 @@ export class Game {
       .on(Events.GAME_UPDATE, this.update.bind(this));
   }
 
-  selectMode() {
+  private selectMode(): void {
     this.gridView.clear();
     this.status.reset();
     this.activate(this.modeView);
   }
 
-  start(event, mode: Mode) {
+  private start(mode: IMode): void {
     this.gridView.init(mode);
     this.status.init(this.gridView.mines);
     this.activate(this.gridView);
   }
 
-  activate(view: ModeView | GridView) {
+  private activate(view: ModeView | GridView): void {
     this.modeView.canvas.hide();
     this.modeView.canvas.hide();
 
@@ -69,19 +75,19 @@ export class Game {
     view.canvas.show();
   }
 
-  defeat() {
+  private defeat(): void {
     this.gridView.freeze();
     this.status.timer.stop();
     this.status.updateResult(ResultsEnum.Defeat);
   }
 
-  victory() {
+  private victory(): void {
     this.gridView.freeze();
     this.status.timer.stop();
     this.status.updateResult(ResultsEnum.Victory);
   }
 
-  update(event, found: number) {
+  private update(found: number): void {
     this.status.updateState(found);
   }
 }
