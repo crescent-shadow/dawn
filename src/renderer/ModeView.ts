@@ -4,7 +4,7 @@
 
 import * as feather from 'feather-icons';
 import * as $ from 'jquery';
-import { Events } from './events';
+import { Events } from './Events';
 import { IMode } from './typings/mode.interface';
 
 export class ModeView {

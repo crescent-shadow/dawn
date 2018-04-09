@@ -4,7 +4,7 @@
 
 import * as $ from 'jquery';
 import { Cell } from './Cell';
-import { Events } from './events';
+import { Events } from './Events';
 import { IMode } from './typings/mode.interface';
 
 export class GridView {
@@ -71,7 +71,10 @@ export class GridView {
         } else {
           cell.reveal();
           this.cellsRevealed += 1;
-          this.flood(cell);
+
+          if (cell.isEmpty()) {
+            this.flood(cell);
+          }
 
           if (this.isCompleted()) {
             this.revealMines();
@@ -147,11 +150,13 @@ export class GridView {
   private flood(cell: Cell): void {
     const neighbours: Cell[] = this.getNeighbours(cell);
     neighbours.forEach((neighbour: Cell) => {
-      if (!neighbour.isMine &&
-        !neighbour.isRevealed && neighbour.value === 0) {
+      if (!neighbour.isMine && !neighbour.isRevealed) {
         neighbour.reveal();
         this.cellsRevealed += 1;
-        this.flood(neighbour);
+
+        if (neighbour.isEmpty()) {
+          this.flood(neighbour);
+        }
       }
     });
   }

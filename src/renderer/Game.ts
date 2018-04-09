@@ -8,7 +8,7 @@ import { GridView } from './GridView';
 import { Header } from './Header';
 import { ModeView } from './ModeView';
 import { ResultsEnum } from './results.enum';
-import { Status } from './status';
+import { Status } from './Status';
 import { IMode } from './typings/mode.interface';
 
 export class Game {
@@ -59,7 +59,7 @@ export class Game {
     this.activate(this.modeView);
   }
 
-  private start(mode: IMode): void {
+  private start(event: JQuery.Event, mode: IMode): void {
     this.gridView.init(mode);
     this.status.init(this.gridView.mines);
     this.activate(this.gridView);
@@ -87,7 +87,7 @@ export class Game {
     this.status.updateResult(ResultsEnum.Victory);
   }
 
-  private update(found: number): void {
+  private update(event: JQuery.Event, found: number): void {
     this.status.updateState(found);
   }
 }

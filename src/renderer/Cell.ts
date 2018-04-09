@@ -33,6 +33,10 @@ export class Cell {
         .data('cell', this);
   }
 
+  public isEmpty(): boolean {
+    return this.value === 0;
+  }
+
   public reveal(): void {
     const value: string = this.value > 0 ? this.value.toString() : '';
 
