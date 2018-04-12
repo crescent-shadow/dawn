@@ -46,11 +46,15 @@ export class Game {
     $(window).on('contextmenu', false);
 
     $(document)
-      .on(Events.GAME_NEW, this.selectMode.bind(this))
-      .on(Events.GAME_START, this.start.bind(this))
-      .on(Events.GAME_VICTORY, this.victory.bind(this))
-      .on(Events.GAME_DEFEAT, this.defeat.bind(this))
-      .on(Events.GAME_UPDATE, this.update.bind(this));
+      .on(Events.GAME_NEW, () => this.selectMode())
+      .on(Events.GAME_START, (event: JQuery.Event, mode: IMode) => {
+        this.start(event, mode);
+      })
+      .on(Events.GAME_VICTORY, () => this.victory())
+      .on(Events.GAME_DEFEAT, () => this.defeat())
+      .on(Events.GAME_UPDATE, (event: JQuery.Event, found: number) => {
+        this.update(event, found);
+      });
   }
 
   private selectMode(): void {
@@ -67,7 +71,7 @@ export class Game {
 
   private activate(view: ModeView | GridView): void {
     this.modeView.canvas.hide();
-    this.modeView.canvas.hide();
+    this.gridView.canvas.hide();
 
     this.$main.width(view.width);
     this.status.updateMode(view.title);

@@ -5,6 +5,7 @@
 import * as feather from 'feather-icons';
 import * as $ from 'jquery';
 import { Events } from './Events';
+import { ModeService } from './ModeService';
 import { IMode } from './typings/mode.interface';
 
 export class ModeView {
@@ -23,15 +24,11 @@ export class ModeView {
     selectorContainer: 'mode-selectors',
     selector: 'mode-selector'
   };
-
-  public modes: IMode[] = [
-    { name: 'easy', rows: 8, cols: 8, mines: 10, icon: 'cloud' },
-    { name: 'normal', rows: 16, cols: 16, mines: 40, icon: 'cloud-rain' },
-    { name: 'hard', rows: 16, cols: 30, mines: 99, icon: 'cloud-snow' },
-    { name: 'insane', rows: 24, cols: 30, mines: 200, icon: 'cloud-lightning' }
-  ];
+  private modeService: ModeService;
 
   constructor() {
+    this.modeService = new ModeService();
+
     const canvas: JQuery = $('<div/>');
     const selectorsElement: JQuery<Element> = this.getSelectors();
 
@@ -51,7 +48,7 @@ export class ModeView {
   public getSelectors(): JQuery<Element> {
     const container: JQuery = $('<div>')
       .addClass(this.classNames.selectorContainer);
-    const selectors: JQuery<Element>[] = this.modes.map((mode: IMode) => {
+    const selectors: JQuery<Element>[] = this.modeService.items.map((mode: IMode) => {
       return this.getSelector(mode);
     });
     container.append(selectors);
