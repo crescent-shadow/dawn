@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import { ResultsEnum } from './results.enum';
 import { Restarter } from './status/Restarter';
 import { Timer } from './status/Timer';
+import { HomeButton } from './status/HomeButton';
 
 interface IStateElements {
   root?: JQuery<Element>;
@@ -17,6 +18,7 @@ interface IStateElements {
 export class Status {
   public canvas: JQuery<Element> = $('<div>');
   public $mode: JQuery<Element>;
+  public homeButton: HomeButton;
   public $result: JQuery<Element>;
   public restarter: Restarter;
   public timer: Timer;
@@ -27,9 +29,11 @@ export class Status {
     const $resultInfo: JQuery = this.generateResultInfoElement();
 
     this.restarter = new Restarter();
+    this.homeButton = new HomeButton();
 
     this.canvas
       .addClass('status')
+      .append(this.homeButton.canvas)
       .append(this.restarter.canvas)
       .append($modeInfo)
       .append($resultInfo);
@@ -37,13 +41,16 @@ export class Status {
 
   public reset(): void {
     this.hideState();
+    this.homeButton.hide();
     this.restarter.hide();
     this.updateResult();
     this.timer.reset();
   }
 
-  public init(mines: number): void {
+  public init(mode, mines: number): void {
     this.initState(mines);
+    this.homeButton.show();
+    this.restarter.canvas.data('mode', mode);
     this.restarter.show();
     this.updateResult(ResultsEnum.InProgress);
     this.timer.tick();

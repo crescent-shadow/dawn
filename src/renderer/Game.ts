@@ -50,6 +50,9 @@ export class Game {
       .on(Events.GAME_START, (event: JQuery.Event, mode: IMode) => {
         this.start(event, mode);
       })
+      .on(Events.GAME_RESTART, (event: JQuery.Event, mode: IMode) => {
+        this.restart(event, mode);
+      })
       .on(Events.GAME_VICTORY, () => this.victory())
       .on(Events.GAME_DEFEAT, () => this.defeat())
       .on(Events.GAME_UPDATE, (event: JQuery.Event, found: number) => {
@@ -65,7 +68,15 @@ export class Game {
 
   private start(event: JQuery.Event, mode: IMode): void {
     this.gridView.init(mode);
-    this.status.init(this.gridView.mines);
+    this.status.init(mode, this.gridView.mines);
+    this.activate(this.gridView);
+  }
+
+  private restart(event: JQuery.Event, mode: IMode): void {
+    this.gridView.clear();
+    this.status.reset();
+    this.gridView.init(mode);
+    this.status.init(mode, this.gridView.mines);
     this.activate(this.gridView);
   }
 

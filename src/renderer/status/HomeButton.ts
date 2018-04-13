@@ -1,26 +1,24 @@
 /**
- * @fileOverview Restarter Class.
+ * @fileOverview Back to Home button component.
  */
 
 import * as feather from 'feather-icons';
 import * as $ from 'jquery';
 import { Events } from '../Events';
 
-export class Restarter {
+export class HomeButton {
   public canvas: JQuery<Element> = $('<button>');
 
   constructor() {
-    const label: JQuery = $('<span>RESTART</span>');
-    const icon: string = feather.icons['rotate-ccw'].toSvg();
+    const label: JQuery = $('<span>HOME</span>');
+    const icon: string = feather.icons['arrow-left'].toSvg();
 
     this.canvas
       .append(icon)
       .append(label)
-      .addClass('button-restart')
+      .addClass('button-home')
       .on('click', () => {
-        $(document).trigger(Events.GAME_RESTART, [
-          this.canvas.data('mode')
-        ]);
+        $(document).trigger(Events.GAME_NEW);
       });
   }
 

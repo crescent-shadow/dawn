@@ -9,13 +9,15 @@
   background: white;
 }
 
-.button-restart {
+.button-restart,
+.button-home {
+  opacity: 0;
   z-index: -1;
   display: flex;
   position: absolute;
   left: 0;
   align-items: center;
-  padding: 10px;
+  padding: 4px 10px;
   width: 90px;
   color: white;
   border: none;
@@ -36,6 +38,9 @@
     color: #FFDC00;
   }
 }
+
+.button-home { top: 8px; }
+.button-restart { top: 46px; }
 
 .status-mode {
   flex: auto;
