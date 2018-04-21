@@ -4,10 +4,13 @@
 
 import * as feather from 'feather-icons';
 import * as $ from 'jquery';
+import { Howl } from 'howler';
 import { Events } from '../Events';
 
 export class HomeButton {
   public canvas: JQuery<Element> = $('<button>');
+  private sfxPath = require('../assets/audios/btn_home.mp3');
+  private sfx = new Howl({ src: [this.sfxPath] });
 
   constructor() {
     const label: JQuery = $('<span>HOME</span>');
@@ -18,6 +21,7 @@ export class HomeButton {
       .append(label)
       .addClass('button-home')
       .on('click', () => {
+        this.sfx.play();
         $(document).trigger(Events.GAME_NEW);
       });
   }

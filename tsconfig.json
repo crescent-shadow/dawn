@@ -1,9 +1,10 @@
 {
-  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "compileOnSave": false,
   "compilerOptions": {
     "strict": false,
+    "target": "es2017",
     "module": "commonjs",
+    "moduleResolution": "node",
     "sourceMap": true,
     "declaration": false,
     "emitDecoratorMetadata": true,

@@ -3,6 +3,7 @@
  */
 
 import * as $ from 'jquery';
+import { Howl } from 'howler';
 import { Events } from './Events';
 import { GridView } from './GridView';
 import { Header } from './Header';
@@ -18,6 +19,17 @@ export class Game {
   public status: Status;
   public modeView: ModeView;
   public gridView: GridView;
+
+  private sfxBgPath: string = require('./assets/audios/bg1.mp3');
+  private sfxBg: Howl = new Howl({
+    src: [this.sfxBgPath],
+    loop: true,
+    volume: 0.4
+  });
+  private sfxVictoryPath: string = require('./assets/audios/victory.mp3');
+  private sfxVictory: Howl = new Howl({ src: [this.sfxVictoryPath]});
+  private sfxDefeatPath: string = require('./assets/audios/victory.mp3');
+  private sfxDefeat: Howl = new Howl({ src: [this.sfxDefeatPath]});
 
   constructor() {
     this.header = new Header();
@@ -91,12 +103,14 @@ export class Game {
   }
 
   private defeat(): void {
+    this.sfxDefeat.play();
     this.gridView.freeze();
     this.status.timer.stop();
     this.status.updateResult(ResultsEnum.Defeat);
   }
 
   private victory(): void {
+    this.sfxVictory.play();
     this.gridView.freeze();
     this.status.timer.stop();
     this.status.updateResult(ResultsEnum.Victory);

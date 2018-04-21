@@ -17,8 +17,12 @@ function createWindow(): void {
   mainWindow = new BrowserWindow();
 
   if (isDevelopment) {
-    mainWindow.webContents.openDevTools();
-    mainWindow.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+    //mainWindow.webContents.openDevTools();
+    mainWindow.loadURL(url.format({
+      pathname: path.resolve(__dirname, '../../dist/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
   } else {
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({

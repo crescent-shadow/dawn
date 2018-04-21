@@ -3,9 +3,14 @@
  */
 
 import * as $ from 'jquery';
+import { Howl } from 'howler';
 import { Cell } from './Cell';
 import { Events } from './Events';
 import { IMode } from './typings/mode.interface';
+
+const sfxForCellPath = require('./assets/audios/cell_reveal.mp3');
+const sfxForFlagPath = require('./assets/audios/cell_flag.mp3');
+const sfxForFlagRemovePath = require('./assets/audios/cell_flag_remove.mp3');
 
 export class GridView {
   public title: string = '';
@@ -21,6 +26,10 @@ export class GridView {
   public cellElements: JQuery<Element>[] = [];
 
   private className: string = 'grid-view';
+
+  private sfxForCell: Howl = new Howl({ src: [sfxForCellPath] });
+  private sfxForFlag: Howl = new Howl({ src: [sfxForFlagPath] });
+  private sfxForFlagRemove: Howl = new Howl({ src: [sfxForFlagRemovePath] });
 
   constructor() {
     this.generateCanvas();
@@ -52,35 +61,11 @@ export class GridView {
     this.canvas
       .append(cellsElement)
       .on('contextmenu', '.cell', (event: JQuery.Event) => {
-        const element: JQuery = $(event.currentTarget);
-        const cell: Cell = element.data('cell');
-
-        cell.flag(!cell.isFlagged);
-        cell.isFlagged ? this.minesFound += 1 : this.minesFound -= 1;
-        $(document).trigger(Events.GAME_UPDATE, [
-          this.minesFound
-        ]);
+        this.onCellFlag(event);
       })
       .on('click', '.cell', (event: JQuery.Event) => {
-        const element: JQuery = $(event.currentTarget);
-        const cell: Cell = element.data('cell');
-
-        if (cell.isMine) {
-          this.revealMines();
-          $(document).trigger(Events.GAME_DEFEAT);
-        } else {
-          cell.reveal();
-          this.cellsRevealed += 1;
-
-          if (cell.isEmpty()) {
-            this.flood(cell);
-          }
-
-          if (this.isCompleted()) {
-            this.revealMines();
-            $(document).trigger(Events.GAME_VICTORY);
-          }
-        }
+        this.sfxForCell.play();
+        this.onCellReveal(event);
       });
   }
 
@@ -94,6 +79,48 @@ export class GridView {
     this.canvas.empty();
     this.canvas.off('click contextmenu');
     this.canvas.hide();
+  }
+
+  private onCellFlag(event: JQuery.Event): void {
+    const element: JQuery = $(event.currentTarget);
+    const cell: Cell = element.data('cell');
+
+    if (cell.isFlagged) {
+      this.sfxForFlagRemove.play();
+      cell.flag(false);
+      this.minesFound -= 1
+    } else {
+      this.sfxForFlag.play();
+      cell.flag(true);
+      this.minesFound += 1
+    }
+
+    $(document).trigger(Events.GAME_UPDATE, [
+      this.minesFound
+    ]);
+  }
+
+  private onCellReveal(event: JQuery.Event): void {
+    const element: JQuery = $(event.currentTarget);
+    const cell: Cell = element.data('cell');
+
+    if (cell.isMine) {
+      this.revealMines();
+      $(document).trigger(Events.GAME_DEFEAT);
+    } else {
+      cell.reveal();
+      this.cellsRevealed += 1;
+
+      if (cell.isEmpty()) {
+        this.flood(cell);
+      }
+
+      if (this.isCompleted()) {
+        this.flagRestMines();
+        this.revealMines();
+        $(document).trigger(Events.GAME_VICTORY);
+      }
+    }
   }
 
   private generateCanvas(): void {
@@ -198,6 +225,16 @@ export class GridView {
     }
 
     return null;
+  }
+
+  private flagRestMines(): void {
+    this.cellsMine
+      .filter((cell: Cell) => {
+        return !cell.isFlagged;
+      })
+      .map((cell: Cell) => {
+        cell.flag(true);
+      });
   }
 
   private revealMines(): void {

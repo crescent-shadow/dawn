@@ -4,10 +4,13 @@
 
 import * as feather from 'feather-icons';
 import * as $ from 'jquery';
+import { Howl } from 'howler';
 import { Events } from '../Events';
 
 export class Restarter {
   public canvas: JQuery<Element> = $('<button>');
+  private sfxPath: string = require('../assets/audios/btn_restart.mp3');
+  private sfx: Howl = new Howl({ src: [this.sfxPath] });
 
   constructor() {
     const label: JQuery = $('<span>RESTART</span>');
@@ -18,6 +21,7 @@ export class Restarter {
       .append(label)
       .addClass('button-restart')
       .on('click', () => {
+        this.sfx.play();
         $(document).trigger(Events.GAME_RESTART, [
           this.canvas.data('mode')
         ]);
