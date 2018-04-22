@@ -14,7 +14,7 @@ let mainWindow: BrowserWindow;
 
 function createWindow(): void {
   // Create the browser window.
-  mainWindow = new BrowserWindow();
+  mainWindow = new BrowserWindow({ width: 900, height: 700 });
 
   if (isDevelopment) {
     //mainWindow.webContents.openDevTools();

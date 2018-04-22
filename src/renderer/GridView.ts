@@ -104,6 +104,8 @@ export class GridView {
     const element: JQuery = $(event.currentTarget);
     const cell: Cell = element.data('cell');
 
+    this.removeFlagWhenReveal(cell);
+
     if (cell.isMine) {
       this.revealMines();
       $(document).trigger(Events.GAME_DEFEAT);
@@ -174,10 +176,20 @@ export class GridView {
     return totalCells === this.mines + this.cellsRevealed;
   }
 
+  private removeFlagWhenReveal(cell: Cell) {
+    if (cell.isFlagged) {
+      cell.flag(false);
+      this.minesFound -= 1;
+      $(document).trigger(Events.GAME_UPDATE, [
+        this.minesFound
+      ]);
+    }
+  }
+
   private flood(cell: Cell): void {
     const neighbours: Cell[] = this.getNeighbours(cell);
     neighbours.forEach((neighbour: Cell) => {
-      if (!neighbour.isMine && !neighbour.isRevealed) {
+      if (!neighbour.isMine && !neighbour.isRevealed && !neighbour.isFlagged) {
         neighbour.reveal();
         this.cellsRevealed += 1;
 

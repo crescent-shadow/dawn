@@ -38,7 +38,6 @@
     color: #FFDC00;
   }
 }
-
 .button-home { top: 8px; }
 .button-restart { top: 46px; }
 
@@ -54,6 +53,13 @@
 .status-state-found,
 .status-state-total {
   font-size: 13px;
+}
+.status-state-total {
+  font-weight: bold;
+}
+.status-state-found-overload {
+  font-weight: bold;
+  color: #FF4136;
 }
 
 @keyframes breath {

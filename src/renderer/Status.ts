@@ -24,6 +24,8 @@ export class Status {
   public timer: Timer;
   public stateElements: IStateElements = {};
 
+  private minesTotal: number = 0;
+
   constructor() {
     const $modeInfo: JQuery = this.generateModeInfoElement();
     const $resultInfo: JQuery = this.generateResultInfoElement();
@@ -40,6 +42,8 @@ export class Status {
   }
 
   public reset(): void {
+    this.minesTotal = 0;
+    this.stateElements.found.removeClass('status-state-found-overload');
     this.hideState();
     this.homeButton.hide();
     this.restarter.hide();
@@ -90,16 +94,20 @@ export class Status {
       .append($stateFound)
       .append(' OF ')
       .append($stateTotal)
-      .append(' MINES');
+      .append(' MINES Found');
   }
 
   public initState(total: number): void {
+    this.minesTotal = total;
+
     this.stateElements.found.html('0');
     this.stateElements.total.html(total.toString());
     this.stateElements.root.show();
   }
 
   public updateState(found: number): void {
+    const isFoundOverload = found > this.minesTotal;
+    this.stateElements.found.toggleClass('status-state-found-overload', isFoundOverload);
     this.stateElements.found.html(found.toString());
   }
 
