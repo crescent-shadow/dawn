@@ -11,6 +11,8 @@ import { ModeView } from './ModeView';
 import { ResultsEnum } from './results.enum';
 import { Status } from './Status';
 import { IMode } from './typings/mode.interface';
+import { SuccessView } from './SuccessView';
+import { FailView } from './FailView';
 
 export class Game {
   public canvas: JQuery<Element> = $('body');
@@ -19,6 +21,8 @@ export class Game {
   public status: Status;
   public modeView: ModeView;
   public gridView: GridView;
+  private successView: SuccessView;
+  private failView: FailView;
 
   private sfxBgPath: string = require('./assets/audios/bg1.mp3');
   private sfxBg: Howl = new Howl({
@@ -36,6 +40,8 @@ export class Game {
     this.modeView = new ModeView();
     this.status = new Status();
     this.gridView = new GridView();
+    this.successView = new SuccessView();
+    this.failView = new FailView();
   }
 
   public init(): void {
@@ -75,20 +81,28 @@ export class Game {
   private selectMode(): void {
     this.gridView.clear();
     this.status.reset();
+    this.successView.destroy();
+    this.failView.destroy();
     this.activate(this.modeView);
   }
 
   private start(event: JQuery.Event, mode: IMode): void {
     this.gridView.init(mode);
     this.status.init(mode, this.gridView.mines);
+    this.successView.init(mode);
+    this.failView.init(mode);
     this.activate(this.gridView);
   }
 
   private restart(event: JQuery.Event, mode: IMode): void {
+    this.successView.destroy();
+    this.failView.destroy();
     this.gridView.clear();
     this.status.reset();
     this.gridView.init(mode);
     this.status.init(mode, this.gridView.mines);
+    this.successView.init(mode);
+    this.failView.init(mode);
     this.activate(this.gridView);
   }
 
@@ -107,6 +121,8 @@ export class Game {
     this.gridView.freeze();
     this.status.timer.stop();
     this.status.updateResult(ResultsEnum.Defeat);
+    this.canvas.append(this.failView.canvas);
+    this.failView.show();
   }
 
   private victory(): void {

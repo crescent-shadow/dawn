@@ -4,6 +4,7 @@
 
 import * as $ from 'jquery';
 import { Howl } from 'howler';
+import anime = require('animejs');
 import { Cell } from './Cell';
 import { Events } from './Events';
 import { IMode } from './typings/mode.interface';
@@ -67,6 +68,7 @@ export class GridView {
         this.sfxForCell.play();
         this.onCellReveal(event);
       });
+    this.cellsMotion();
   }
 
   public freeze(): void {
@@ -253,5 +255,15 @@ export class GridView {
     this.cellsMine.forEach((cell: Cell) => {
       cell.mine();
     });
+  }
+
+  private cellsMotion(): void {
+    anime({
+      targets: '.cell',
+      opacity: [0, 1],
+      translateY: { value: [-20, 0] },
+      delay: (target, index) => index,
+      duration: 1000
+    })
   }
 }

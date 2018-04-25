@@ -17,6 +17,7 @@
   height: 20px;
   text-align: center;
   background: #7FDBFF;
+  opacity: 0;
 
   svg {
     stroke: #000;
@@ -28,9 +29,7 @@
   background: #FFDB00;
 }
 
-.reveal {
-  background: #787878;
-}
+.reveal {}
 
 .mine {
   background: #FF5975;

@@ -17,7 +17,7 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({ width: 900, height: 700 });
 
   if (isDevelopment) {
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
     mainWindow.loadURL(url.format({
       pathname: path.resolve(__dirname, '../../dist/index.html'),
       protocol: 'file:',

@@ -5,16 +5,8 @@ import HtmlWebpackPlugin = require('html-webpack-plugin');
 
 import common from './webpack.common';
 
-const main: webpack.Configuration = merge(common, {
-  target: 'electron-main',
-  entry: { main: './src/main/index.ts' },
-  output: {
-    filename: 'index.js',
-    path: path.join(__dirname, './dist')
-  }
-});
-const renderer: webpack.Configuration = merge(common, {
-  target: 'electron-renderer',
+const web: webpack.Configuration = merge(common, {
+  target: 'web',
   entry: './src/renderer/index.ts',
   output: {
     filename: 'renderer.js',
@@ -26,8 +18,10 @@ const renderer: webpack.Configuration = merge(common, {
       favicon: './src/renderer/assets/favicon.ico',
       template: 'src/renderer/index.html'
     })
-  ]
+  ],
+  devServer: {
+    contentBase: './dist'
+  }
 });
-const config = [main, renderer];
 
-export default config;
+export default web;

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack && electron ./dist",
+    "s": "webpack-dev-server --config webpack.web.ts --open",
     "build": "webpack --config webpack.config.ts",
     "lint": "tslint --format stylish --config tslint.json --project .",
     "dist": "yarn build && electron-builder",
@@ -45,6 +46,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "animejs": "^2.2.0",
     "feather-icons": "^4.5.0",
     "howler": "^2.0.9",
     "jquery": "^3.2.1",
