@@ -39,13 +39,26 @@ export class Cell {
   }
 
   public reveal(): void {
-    const value: string = this.value > 0 ? this.value.toString() : '';
+    const value: string | JQuery<Element> = this.value > 0 ?
+      this.getDisplayValue() : '';
 
     this.isRevealed = true;
     this.element
-      .html(value)
+      .append(value)
       .addClass(this.classNames.reveal);
     this.cellRevealMotion();
+  }
+
+  private getDisplayValue() {
+    const $value: JQuery<Element> = $('<span>');
+    const className = this.value > 5 ?
+      'cell-value-n' :
+      `cell-value-${this.value}`;
+    $value
+      .addClass(`${className} cell-value`)
+      .html(this.value.toString());
+
+    return $value;
   }
 
   public flag(toggle: boolean): void {
@@ -71,7 +84,9 @@ export class Cell {
     this.element
       .addClass(this.classNames.mine)
       .html(mineIcon);
-    this.cellMineMotion();
+    this.isFlagged ?
+      this.cellFlaggedMineMotion() :
+      this.cellUnFlaggedMineMotion();
   }
 
   private cellRevealMotion(): void {
@@ -95,7 +110,18 @@ export class Cell {
     });
   }
 
-  private cellMineMotion(): void {
+  private cellFlaggedMineMotion(): void {
+    anime({
+      targets: [
+        this.element.find('polyline')[0]
+      ],
+      strokeDashoffset: [anime.setDashoffset, 0],
+      easing: 'easeInOutSine',
+      duration: 300
+    });
+  }
+
+  private cellUnFlaggedMineMotion(): void {
     anime({
       targets: [
         this.element.find('circle')[0]

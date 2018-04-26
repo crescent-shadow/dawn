@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack && electron ./dist",
-    "s": "webpack-dev-server --config webpack.web.ts --open",
+    "web": "webpack-dev-server --config webpack.web.ts --open",
+    "web:dist": "webpack --config webpack.web.ts",
     "build": "webpack --config webpack.config.ts",
     "lint": "tslint --format stylish --config tslint.json --project .",
     "dist": "yarn build && electron-builder",

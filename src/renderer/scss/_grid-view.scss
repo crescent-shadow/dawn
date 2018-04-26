@@ -1,3 +1,5 @@
+@import "colors";
+
 .grid-view {
   padding: 20px;
 }
@@ -18,12 +20,23 @@
   text-align: center;
   background: #7FDBFF;
   opacity: 0;
+  user-select: none;
 
   svg {
     stroke: #000;
     height: 14px;
   }
 }
+
+
+// 单元格 雷的个数 颜色定义
+.cell-value { font-weight: bold; }
+.cell-value-1 { color: #DDDDDD; }
+.cell-value-2 { color: #69F0AE; }
+.cell-value-3 { color: #FFEE58; }
+.cell-value-4 { color: #FF851B; }
+.cell-value-5 { color: #FF4136; }
+.cell-value-n { color: #FF4136; }
 
 .flag {
   background: #FFDB00;

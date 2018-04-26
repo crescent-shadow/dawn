@@ -65,7 +65,6 @@ export class GridView {
         this.onCellFlag(event);
       })
       .on('click', '.cell', (event: JQuery.Event) => {
-        this.sfxForCell.play();
         this.onCellReveal(event);
       });
     this.cellsMotion();
@@ -87,6 +86,10 @@ export class GridView {
     const element: JQuery = $(event.currentTarget);
     const cell: Cell = element.data('cell');
 
+    if (cell.isRevealed) {
+      return;
+    }
+
     if (cell.isFlagged) {
       this.sfxForFlagRemove.play();
       cell.flag(false);
@@ -105,6 +108,12 @@ export class GridView {
   private onCellReveal(event: JQuery.Event): void {
     const element: JQuery = $(event.currentTarget);
     const cell: Cell = element.data('cell');
+
+    if (cell.isRevealed) {
+      return;
+    }
+
+    this.sfxForCell.play();
 
     this.removeFlagWhenReveal(cell);
 
