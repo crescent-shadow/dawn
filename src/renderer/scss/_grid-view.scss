@@ -1,8 +1,143 @@
 @import "colors";
+@import "view-header";
 
 .grid-view {
-  padding: 20px;
+  margin: 0 auto;
+  transition: all .5s;
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.4);
 }
+
+.grid-view-success {
+  border-color: $green;
+}
+
+.grid-view-fail {
+  border-color: $red;
+}
+
+// ==============================================
+// GridView Header
+// ==============================================
+.grid-view-header {
+  @extend %view-header;
+  position: relative;
+}
+
+.grid-view-header-mode-name {
+  flex: auto;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.grid-view-header-right {
+  .timer {
+    font-size: 24px;
+    color: #444;
+    font-family: 'digital', monospace;
+    user-select: none;
+
+    span {
+      display: inline-block;
+      min-width: 12px;
+      text-align: right;
+    }
+  }
+}
+
+.grid-view-header-success,
+.grid-view-header-fail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+}
+
+.grid-view-header-success {
+  background-color: $green;
+}
+
+.grid-view-header-fail {
+  background-color: $red;
+}
+
+.grid-view-header-success-container,
+.grid-view-header-fail-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 20px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.grid-view-header-success-label,
+.grid-view-header-fail-label {
+  font-size: 20px;
+}
+
+.grid-view-header-success-timer,
+.grid-view-header-fail-timer {
+  font-size: 24px;
+  font-family: digital, monospace;
+}
+
+.button-restart,
+.button-home {
+  opacity: 0;
+  z-index: -1;
+  display: flex;
+  position: absolute;
+  left: 0;
+  align-items: center;
+  padding: 4px 10px;
+  width: 90px;
+  color: white;
+  border: none;
+  background: #000;
+  cursor: pointer;
+  outline: none;
+  transition: all .2s ease-in;
+
+  svg {
+    margin-right: 4px;
+    width: 13px;
+    stroke: currentColor;
+    transition: all .3s ease-in-out;
+  }
+
+  &:hover {
+    svg { transform: rotate(360deg); }
+    color: #FFDC00;
+  }
+}
+.button-home { top: 8px; }
+.button-restart { top: 46px; }
+
+.status-state {
+  color: #666;
+}
+.status-state-found,
+.status-state-total {
+  font-size: 13px;
+}
+.status-state-total {
+  font-weight: bold;
+}
+.status-state-found-overload {
+  font-weight: bold;
+  color: #FF4136;
+}
+
+
+// ==============================================
+// Grid View Body
+// ==============================================
+.grid-view-body { padding: 20px; }
 
 .cells {
   display: flex;

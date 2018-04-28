@@ -1,12 +1,35 @@
+@import "view-header";
+
 .mode-view {
   margin: 0 auto;
+  width: 320px;
+  background: rgba(0, 0, 0, 0.4);
 }
 
-.mode-selectors {
+// ==============================================
+// Mode View Header
+// ==============================================
+.mode-view-header {
+  @extend %view-header;
+}
+
+.mode-view-header-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+
+// ==============================================
+// Mode View Body
+// ==============================================
+
+.mode-view-selectors {
   padding: 20px;
 }
 
-.mode-selector {
+.mode-view-selector button {
   display: flex;
   align-items: center;
   margin: 10px 0;
@@ -31,19 +54,19 @@
   }
 }
 
-.mode-selector-easy {
+.mode-view-selector-easy button {
   color: #01FF70;
   &:hover { border-color: #01FF70; }
 }
-.mode-selector-normal {
+.mode-view-selector-normal button {
   color: #7FDBFF;
   &:hover { border-color: #7FDBFF; }
 }
-.mode-selector-hard {
+.mode-view-selector-hard button {
   color: #FFDC00;
   &:hover { border-color: #FFDC00; }
 }
-.mode-selector-insane {
+.mode-view-selector-insane button {
   color: #FF4136;
   &:hover { border-color: #FF4136; }
 }

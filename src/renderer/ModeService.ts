@@ -5,7 +5,7 @@ import { IMode } from './typings/mode.interface';
  */
 
 export class ModeService {
-  private _items: IMode[];
+  readonly _items: IMode[];
 
   constructor() {
     this._items = [

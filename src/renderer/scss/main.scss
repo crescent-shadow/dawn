@@ -1,9 +1,8 @@
 @import "font";
+@import "font-digital";
 @import "header";
-@import "status";
 @import "mode-view";
 @import "grid-view";
-@import "result-view";
 
 * {
   margin: 0;
@@ -17,13 +16,6 @@ body {
   color: #fff;
   background: #424242;
   font: 12px/1.5 "Montserrat", "Avenir Next", Helvetica, sans-serif;
-}
-
-main {
-  margin: 0 auto;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
-  transition: all .3s ease-in-out;
 }
 
 svg {

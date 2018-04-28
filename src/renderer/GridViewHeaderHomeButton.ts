@@ -5,11 +5,11 @@
 import * as feather from 'feather-icons';
 import * as $ from 'jquery';
 import { Howl } from 'howler';
-import { Events } from '../Events';
+import { Events } from './Events';
 
-export class HomeButton {
+export class GridViewHeaderHomeButton {
   public canvas: JQuery<Element> = $('<button>');
-  private sfxPath = require('../assets/audios/btn_home.mp3');
+  private sfxPath = require('./assets/audios/btn_home.mp3');
   private sfx = new Howl({ src: [this.sfxPath] });
 
   constructor() {
@@ -27,7 +27,7 @@ export class HomeButton {
   }
 
   public show(): void {
-    this.canvas.css({ opacity: 1, left: -90, zIndex: 1 });
+    this.canvas.css({ opacity: 1, left: -91, zIndex: 1 });
   }
 
   public hide(): void {

@@ -8,23 +8,25 @@ import anime = require('animejs');
 import { Cell } from './Cell';
 import { Events } from './Events';
 import { IMode } from './typings/mode.interface';
+import { GridViewHeader } from './GridViewHeader';
 
 const sfxForCellPath = require('./assets/audios/cell_reveal.mp3');
 const sfxForFlagPath = require('./assets/audios/cell_flag.mp3');
 const sfxForFlagRemovePath = require('./assets/audios/cell_flag_remove.mp3');
 
 export class GridView {
-  public title: string = '';
-  public width: number = 320;
   public canvas: JQuery<Element>;
-  public rows: number;
-  public cols: number;
-  public mines: number;
-  public minesFound: number;
-  public cellsRevealed: number;
-  public cells: Cell[][] = [];
-  public cellsMine: Cell[];
-  public cellElements: JQuery<Element>[] = [];
+  private rows: number;
+  private cols: number;
+  private mines: number;
+  private minesFound: number;
+  private cellsRevealed: number;
+  private cells: Cell[][] = [];
+  private cellsMine: Cell[];
+  private cellElements: JQuery<Element>[] = [];
+  private cellsClassName: string = 'cells';
+  private cellClassName: string = 'cell';
+  private header: GridViewHeader;
 
   private className: string = 'grid-view';
 
@@ -32,12 +34,19 @@ export class GridView {
   private sfxForFlag: Howl = new Howl({ src: [sfxForFlagPath] });
   private sfxForFlagRemove: Howl = new Howl({ src: [sfxForFlagRemovePath] });
 
-  constructor() {
-    this.generateCanvas();
+  constructor(mode: IMode) {
+    const canvas: JQuery = $('<div/>');
+
+    this.header = new GridViewHeader();
+
+    canvas.addClass(this.className);
+    this.canvas = canvas;
+
+    this.init(mode);
   }
 
   public init(mode: IMode): void {
-    this.clear();
+    this.header.init(mode);
 
     this.rows = mode.rows;
     this.cols = mode.rows;
@@ -45,41 +54,58 @@ export class GridView {
     this.minesFound = 0;
     this.cellsRevealed = 0;
     this.cellsMine = [];
-    this.title = mode.name.toUpperCase();
     this.generateCells();
     this.generateMines();
-    this.render();
   }
 
   public render(): void {
-    const cellsWidth: number = (20 + 2) * this.cols;
-    this.width = cellsWidth + 20 * 2;
-    this.width = this.width < 320 ? 360 : this.width;
     const cellsElement: JQuery = $('<div>')
-      .addClass('cells')
-      .width(cellsWidth)
+      .addClass(`${this.cellsClassName}`)
       .append(this.cellElements);
+    const body: JQuery<Element> = $('<div>')
+      .addClass('grid-view-body')
+      .append(cellsElement);
     this.canvas
-      .append(cellsElement)
-      .on('contextmenu', '.cell', (event: JQuery.Event) => {
+      .append(this.header.canvas)
+      .append(body)
+      .on('contextmenu', `.${this.cellClassName}`, (event: JQuery.Event) => {
         this.onCellFlag(event);
       })
-      .on('click', '.cell', (event: JQuery.Event) => {
+      .on('click', `.${this.cellClassName}`, (event: JQuery.Event) => {
         this.onCellReveal(event);
       });
+    this.setCanvasWidth();
     this.cellsMotion();
   }
 
-  public freeze(): void {
+  public freeze(success: boolean): void {
     this.canvas.off('click contextmenu');
+    if (success) {
+      this.canvas.addClass('grid-view-success');
+      this.header.success();
+    } else {
+      this.canvas.addClass('grid-view-fail');
+      this.header.fail()
+    }
   }
 
-  public clear(): void {
-    this.cells = [];
-    this.cellElements = [];
-    this.canvas.empty();
-    this.canvas.off('click contextmenu');
-    this.canvas.hide();
+  public destroy(): void {
+    this.canvas.remove();
+  }
+
+  private setCanvasWidth(): void {
+    const cellsWidth: number = (20 + 2) * this.cols;
+    let viewWidth = cellsWidth + 20 * 2;
+    viewWidth = viewWidth < 320 ? 360 : viewWidth;
+
+    this.setCellsWidth(cellsWidth);
+    this.canvas.width(viewWidth);
+  }
+
+  private setCellsWidth(width: number): void {
+    this.canvas
+      .find(`.${this.cellsClassName}`)
+      .width(width);
   }
 
   private onCellFlag(event: JQuery.Event): void {
@@ -100,9 +126,7 @@ export class GridView {
       this.minesFound += 1
     }
 
-    $(document).trigger(Events.GAME_UPDATE, [
-      this.minesFound
-    ]);
+    this.header.updateState(this.minesFound);
   }
 
   private onCellReveal(event: JQuery.Event): void {
@@ -134,15 +158,6 @@ export class GridView {
         $(document).trigger(Events.GAME_VICTORY);
       }
     }
-  }
-
-  private generateCanvas(): void {
-    const canvas: JQuery = $('<div/>');
-
-    canvas
-      .addClass(this.className)
-      .hide();
-    this.canvas = canvas;
   }
 
   private generateCells(): void {
@@ -191,9 +206,7 @@ export class GridView {
     if (cell.isFlagged) {
       cell.flag(false);
       this.minesFound -= 1;
-      $(document).trigger(Events.GAME_UPDATE, [
-        this.minesFound
-      ]);
+      this.header.updateState(this.minesFound);
     }
   }
 
@@ -268,7 +281,7 @@ export class GridView {
 
   private cellsMotion(): void {
     anime({
-      targets: '.cell',
+      targets: `.${this.cellClassName}`,
       opacity: [0, 1],
       translateY: { value: [-20, 0] },
       delay: (target, index) => index,

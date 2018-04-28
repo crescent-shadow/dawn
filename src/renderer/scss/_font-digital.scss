@@ -1,0 +1,37 @@
+$fontPath: "../assets/fonts";
+
+// Normal/Normal Italic
+// --------------------------------------------------
+@font-face {
+  font-family: "digital";
+  font-weight: normal;
+  font-style: normal;
+  src: url($fontPath + '/ds_digital/DS-DIGI.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: "digital";
+  font-weight: normal;
+  font-style: italic;
+  src: url($fontPath + '/ds_digital/DS-DIGII.ttf') format('truetype');
+}
+
+
+
+// Bold/Bold Italic
+// --------------------------------------------------
+@font-face {
+  font-family: "digital";
+  font-weight: 700;
+  font-style: normal;
+  src: url($fontPath + '/ds_digital/DS-DIGIB.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: "digital";
+  font-weight: 700;
+  font-style: italic;
+  src: url($fontPath + '/ds_digital/DS-DIGIT.ttf') format('truetype');
+}

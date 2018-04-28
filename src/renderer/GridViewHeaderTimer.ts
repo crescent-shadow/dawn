@@ -1,19 +1,18 @@
 /**
- * @fileOverview Timer Class.
+ * @fileOverview Timer Component.
  */
 
 import * as $ from 'jquery';
 
-export class Timer {
+export class GridViewHeaderTimer {
   public value: number = 0;
   public canvas: JQuery<Element>;
-  private classNames: { timer: string } = {
-    timer: 'status-timer'
-  };
+  private canvasClassName: string = 'timer';
   private timerId: number;
 
   constructor() {
-    this.canvas = $('<div>').addClass(this.classNames.timer);
+    this.canvas = $('<div>')
+      .addClass(this.canvasClassName);
   }
 
   public reset(): void {
@@ -38,10 +37,20 @@ export class Timer {
   }
 
   public display(): string {
+    const zeroPadding = (number: number): string => {
+      return number < 10 ? `0${number.toString()}` : number.toString();
+    };
+    const spanWrap = (number: string): string => {
+      const parts = number.split('');
+      return parts.map((part: string) => {
+        return `<span>${part}</span>`;
+      }).join('');
+    };
     const m: number = Math.floor((this.value % 3600) / 60);
     const s: number = Math.max(Math.floor((this.value % 3600) % 60), 0);
-    const seconds: string = s < 10 ? `0${s.toString()}` : s.toString();
+    const minutes: string = spanWrap(zeroPadding(m));
+    const seconds: string = spanWrap(zeroPadding(s));
 
-    return `${m.toString()}:${seconds}`;
+    return `${minutes}:${seconds}`;
   }
 }
