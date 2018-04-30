@@ -1,32 +1,49 @@
 /**
- * @fileOverview Header Class.
+ * @fileOverview Header Component.
  */
 
-import * as feather from 'feather-icons';
 import * as $ from 'jquery';
+import { HomeButton } from './HomeButton';
+import { RestartButton } from './RestartButton';
+import { IMode } from './typings/mode.interface';
 
 export class Header {
   public canvas: JQuery<Element>;
-  public $logo: JQuery<Element>;
-  public classNames: { header: string; logo: string } = {
-    header: 'header',
-    logo: 'logo'
-  };
+  private canvasClassName: string = 'header';
+  private headerContainerClassName: string = 'header-container';
+  private homeButton: HomeButton;
+  private restartButton: RestartButton;
 
   constructor() {
-    const canvas: JQuery = $('<header />');
+    const canvas: JQuery<Element> = $('<header>');
 
-    this.generateLogo();
+    const buttons = this.generateButtonsContainer();
+    const headerContainer = $('<div>')
+      .addClass(this.headerContainerClassName)
+      .append(buttons);
     canvas
-      .addClass(this.classNames.header)
-      .append(this.$logo);
+      .addClass(this.canvasClassName)
+      .append(headerContainer);
     this.canvas = canvas;
   }
 
-  private generateLogo(): void {
-    const icon: string = feather.icons.moon.toSvg();
-    this.$logo = $('<div>')
-      .addClass(this.classNames.logo)
-      .append(icon);
+  public activateRestartButton(mode: IMode): void {
+    this.restartButton.activate(mode);
+  }
+
+  public deactivateRestartButton(): void {
+    this.restartButton.deactivate();
+  }
+
+  private generateButtonsContainer(): JQuery<Element> {
+    const container: JQuery<Element> = $('<div>');
+
+    this.homeButton = new HomeButton();
+    this.restartButton = new RestartButton();
+    container
+      .append(this.homeButton.canvas)
+      .append(this.restartButton.canvas);
+
+    return container;
   }
 }

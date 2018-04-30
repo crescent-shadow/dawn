@@ -26,7 +26,7 @@ export class ModeViewHeader {
   private getTitleNode(): JQuery<Element> {
     return $('<span>')
       .addClass(this.titleClassName)
-      .text('Mode select');
+      .text('select mode');
   }
 
   private doTitleMotion(): void {

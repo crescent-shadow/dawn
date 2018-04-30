@@ -7,30 +7,24 @@ import * as $ from 'jquery';
 import { Howl } from 'howler';
 import { Events } from './Events';
 
-export class GridViewHeaderHomeButton {
+export class HomeButton {
   public canvas: JQuery<Element> = $('<button>');
   private sfxPath = require('./assets/audios/btn_home.mp3');
   private sfx = new Howl({ src: [this.sfxPath] });
 
   constructor() {
-    const label: JQuery = $('<span>HOME</span>');
-    const icon: string = feather.icons['arrow-left'].toSvg();
+    const label: JQuery<Element> = $('<span>HOME</span>');
+    const icon: string = feather.icons['menu'].toSvg();
 
     this.canvas
       .append(icon)
       .append(label)
       .addClass('button-home')
-      .on('click', () => {
-        this.sfx.play();
-        $(document).trigger(Events.GAME_NEW);
-      });
+      .on('click', () => this.onButtonClick());
   }
 
-  public show(): void {
-    this.canvas.css({ opacity: 1, left: -91, zIndex: 1 });
-  }
-
-  public hide(): void {
-    this.canvas.css({ opacity: 0, left: 0, zIndex: -1 });
+  private onButtonClick(): void {
+    this.sfx.play();
+    $(document).trigger(Events.GAME_SELECT_MODE);
   }
 }

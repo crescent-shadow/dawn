@@ -1,16 +1,49 @@
 header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 40px;
-  padding: 0 20px;
-  height: 40px;
-  color: #ccc;
+  margin-bottom: 20px;
   background: #000;
   box-shadow: 0 1px 1px 0 #111;
 }
 
-.logo {
-  color: #AAAAAA;
-  svg { height: 20px; }
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 570px;
+  height: 40px;
+}
+
+// ==============================================
+// Buttons
+// ==============================================
+.button-restart,
+.button-home {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 10px;
+  width: 90px;
+  color: #ffffff;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  transition: all .2s ease-in;
+
+  svg {
+    margin-right: 4px;
+    width: 13px;
+    stroke: currentColor;
+    transition: all .3s ease-in-out;
+  }
+
+  &:hover {
+    svg { transform: rotate(360deg); }
+    color: #FFDC00;
+  }
+}
+
+.button-restart[disabled] {
+  color: #999;
+  svg { transform: rotate(0); }
 }

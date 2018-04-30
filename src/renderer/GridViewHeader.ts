@@ -2,12 +2,9 @@
  * @fileOverview GridViewHeader Class.
  */
 
-import * as feather from 'feather-icons';
 import * as $ from 'jquery';
 import anime = require('animejs');
 
-import { GridViewHeaderHomeButton } from './GridViewHeaderHomeButton';
-import { GridViewHeaderRestartButton } from './GridViewHeaderRestartButton';
 import { GridViewHeaderTimer } from './GridViewHeaderTimer';
 import { IMode } from './typings/mode.interface';
 
@@ -21,8 +18,6 @@ export class GridViewHeader {
   public canvas: JQuery<Element> = $('<div>');
   private commonClassName: string = 'view-header';
   private specificClassName: string = 'grid-view-header';
-  private homeButton: GridViewHeaderHomeButton;
-  private restartButton: GridViewHeaderRestartButton;
   private timer: GridViewHeaderTimer;
   private modeName: JQuery<Element>;
   private stateElements: IStateElements = {};
@@ -31,8 +26,6 @@ export class GridViewHeader {
   private failNode: JQuery<Element> = $('<div>');
 
   constructor() {
-    this.homeButton = new GridViewHeaderHomeButton();
-    this.restartButton = new GridViewHeaderRestartButton();
     this.timer = new GridViewHeaderTimer();
     const leftArea = this.generateLeftArea();
     const rightArea: JQuery<Element> = this.generateRightArea();
@@ -43,8 +36,6 @@ export class GridViewHeader {
     this.canvas
       .addClass(this.commonClassName)
       .addClass(this.specificClassName)
-      .append(this.homeButton.canvas)
-      .append(this.restartButton.canvas)
       .append(leftArea)
       .append(rightArea)
       .append(this.successNode)
@@ -56,9 +47,6 @@ export class GridViewHeader {
     this.updateModeName(mode.name);
     this.initState();
     this.timer.tick();
-    this.homeButton.show();
-    this.restartButton.canvas.data('mode', mode);
-    this.restartButton.show();
   }
 
   public success() {

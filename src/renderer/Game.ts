@@ -45,36 +45,34 @@ export class Game {
     $(window).on('contextmenu', false);
 
     $(document)
-      .on(Events.GAME_NEW, () => this.selectMode())
+      .on(Events.GAME_SELECT_MODE, () => this.selectMode())
       .on(Events.GAME_START, (event: JQuery.Event, mode: IMode) => {
         this.start(event, mode);
-      })
-      .on(Events.GAME_RESTART, (event: JQuery.Event, mode: IMode) => {
-        this.restart(event, mode);
       })
       .on(Events.GAME_VICTORY, () => this.victory())
       .on(Events.GAME_DEFEAT, () => this.defeat());
   }
 
   private selectMode(): void {
+    this.deactivateModeView();
     this.deactivateGridView();
     this.activateModeView();
+
+    this.header.deactivateRestartButton();
   }
 
   private start(event: JQuery.Event, mode: IMode): void {
     this.deactivateModeView();
-    this.activateGridView(mode);
-  }
-
-  private restart(event: JQuery.Event, mode: IMode): void {
     this.deactivateGridView();
     this.activateGridView(mode);
+
+    this.header.activateRestartButton(mode);
   }
 
   private activateModeView(): void {
     this.modeView = new ModeView();
     this.canvas.append(this.modeView.canvas);
-    this.switchView(this.modeView);
+    this.modeView.render();
   }
 
   private deactivateModeView(): void {
@@ -86,17 +84,13 @@ export class Game {
   private activateGridView(mode: IMode): void {
     this.gridView = new GridView(mode);
     this.canvas.append(this.gridView.canvas);
-    this.switchView(this.gridView);
+    this.gridView.render();
   }
 
   private deactivateGridView(): void {
     if (this.gridView) {
       this.gridView.destroy();
     }
-  }
-
-  private switchView(view: ModeView | GridView): void {
-    view.render();
   }
 
   private defeat(): void {

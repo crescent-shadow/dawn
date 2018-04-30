@@ -64,7 +64,7 @@ describe('Game', () => {
 
       it('new game', () => {
         const spy = spyOn(this.game, 'selectMode');
-        $(document).trigger(Events.GAME_NEW);
+        $(document).trigger(Events.GAME_SELECT_MODE);
         expect(spy).toHaveBeenCalled();
       });
 

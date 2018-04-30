@@ -86,38 +86,6 @@
   font-family: digital, monospace;
 }
 
-.button-restart,
-.button-home {
-  opacity: 0;
-  z-index: -1;
-  display: flex;
-  position: absolute;
-  left: 0;
-  align-items: center;
-  padding: 4px 10px;
-  width: 90px;
-  color: white;
-  border: none;
-  background: #000;
-  cursor: pointer;
-  outline: none;
-  transition: all .2s ease-in;
-
-  svg {
-    margin-right: 4px;
-    width: 13px;
-    stroke: currentColor;
-    transition: all .3s ease-in-out;
-  }
-
-  &:hover {
-    svg { transform: rotate(360deg); }
-    color: #FFDC00;
-  }
-}
-.button-home { top: 8px; }
-.button-restart { top: 46px; }
-
 .status-state {
   color: #666;
 }

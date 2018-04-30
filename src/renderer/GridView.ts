@@ -49,7 +49,7 @@ export class GridView {
     this.header.init(mode);
 
     this.rows = mode.rows;
-    this.cols = mode.rows;
+    this.cols = mode.cols;
     this.mines = mode.mines;
     this.minesFound = 0;
     this.cellsRevealed = 0;
