@@ -39,24 +39,26 @@ export class Cell {
   }
 
   public reveal(): void {
-    const value: string | JQuery<Element> = this.value > 0 ?
-      this.getDisplayValue() : '';
+    const value: JQuery<Element> = this.getDisplayValue();
 
     this.isRevealed = true;
     this.element
+      .empty()
       .append(value)
       .addClass(this.classNames.reveal);
     this.cellRevealMotion();
   }
 
-  private getDisplayValue() {
-    const $value: JQuery<Element> = $('<span>');
+  private getDisplayValue(): JQuery<HTMLElement> {
+    const $value: JQuery<HTMLElement> = $('<span>');
     const className = this.value > 5 ?
       'cell-value-n' :
       `cell-value-${this.value}`;
+    const value = this.value > 0 ? this.value.toString() : '';
+
     $value
       .addClass(`${className} cell-value`)
-      .html(this.value.toString());
+      .html(value);
 
     return $value;
   }

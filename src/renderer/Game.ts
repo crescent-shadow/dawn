@@ -9,20 +9,15 @@ import { GridView } from './GridView';
 import { Header } from './Header';
 import { ModeView } from './ModeView';
 import { IMode } from './typings/mode.interface';
+import { Boss } from './Boss';
 
 export class Game {
   public canvas: JQuery<Element> = $('body');
-  public header: Header;
-  public $main: JQuery<Element>;
-  public modeView: ModeView;
-  public gridView: GridView;
+  private boss: Boss;
+  private header: Header;
+  private modeView: ModeView;
+  private gridView: GridView;
 
-  private sfxBgPath: string = require('./assets/audios/bg1.mp3');
-  private sfxBg: Howl = new Howl({
-    src: [this.sfxBgPath],
-    loop: true,
-    volume: 0.4
-  });
   private sfxVictoryPath: string = require('./assets/audios/victory.mp3');
   private sfxVictory: Howl = new Howl({ src: [this.sfxVictoryPath]});
   private sfxDefeatPath: string = require('./assets/audios/defeat.mp3');
@@ -37,6 +32,8 @@ export class Game {
     this.canvas
       .addClass('background')
       .append(this.header.canvas);
+    this.boss = new Boss();
+    (<any>window).boss = this.boss;
 
     this.selectMode();
   }
@@ -67,6 +64,7 @@ export class Game {
     this.activateGridView(mode);
 
     this.header.activateRestartButton(mode);
+    this.boss.know(this.gridView.expose());
   }
 
   private activateModeView(): void {

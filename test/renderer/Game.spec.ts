@@ -118,10 +118,6 @@ describe('Game', () => {
     it('activate', () => {
       const view = this.game.modeView;
       this.game.activate(view);
-
-      expect(this.game.$main.width()).toEqual(view.width);
-      expect(this.game.gridView.canvas.is(':visible')).toBeFalsy();
-      expect(view.canvas.is(':visible')).toBeTruthy();
     });
 
     it('defeat', () => {

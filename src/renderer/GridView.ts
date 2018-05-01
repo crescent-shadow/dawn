@@ -16,6 +16,7 @@ const sfxForFlagRemovePath = require('./assets/audios/cell_flag_remove.mp3');
 
 export class GridView {
   public canvas: JQuery<Element>;
+  readonly mode: IMode;
   private rows: number;
   private cols: number;
   private mines: number;
@@ -41,7 +42,7 @@ export class GridView {
 
     canvas.addClass(this.className);
     this.canvas = canvas;
-
+    this.mode = mode;
     this.init(mode);
   }
 
@@ -91,6 +92,10 @@ export class GridView {
 
   public destroy(): void {
     this.canvas.remove();
+  }
+
+  public expose(): { mode: IMode, cells: Cell[][] } {
+    return { mode: this.mode, cells: this.cells };
   }
 
   private setCanvasWidth(): void {
@@ -229,6 +234,7 @@ export class GridView {
       row: number;
       col: number;
     }
+
     // Eight-way
     const positions: IPosition[] = [
       { row: cell.row - 1, col: cell.col - 1 },
