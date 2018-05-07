@@ -4,13 +4,13 @@
   "description": "The code light of dawn.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack && electron ./dist",
+    "start": "webpack && electron ./build",
     "web": "webpack-dev-server --config webpack.web.ts --open",
     "web:dist": "webpack --config webpack.web.ts",
     "build": "webpack --config webpack.config.ts",
     "lint": "tslint --format stylish --config tslint.json --project .",
     "dist": "yarn build && electron-builder",
-    "dist:dir": "yarn dist -- --dir -c.compression=store -c.mac.identity=null",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "test": "karma start karma.conf.ts",
     "test:once": "karma start karma.conf.ts --single-run"
   },

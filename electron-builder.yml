@@ -1,0 +1,9 @@
+extraMetadata:
+  main: "main.js"
+
+files:
+  -
+    from: "."
+    filter: ["package.json"]
+  -
+    from: "build/"
