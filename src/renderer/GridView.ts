@@ -27,7 +27,7 @@ export class GridView {
   private cellElements: JQuery<Element>[] = [];
   private cellsClassName: string = 'cells';
   private cellClassName: string = 'cell';
-  private header: GridViewHeader;
+  private readonly header: GridViewHeader;
 
   private className: string = 'grid-view';
 
@@ -86,7 +86,7 @@ export class GridView {
       this.header.success();
     } else {
       this.canvas.addClass('grid-view-fail');
-      this.header.fail()
+      this.header.fail();
     }
   }
 
@@ -160,7 +160,10 @@ export class GridView {
       if (this.isCompleted()) {
         this.flagRestMines();
         this.revealMines();
-        $(document).trigger(Events.GAME_VICTORY);
+        $(document).trigger(Events.GAME_VICTORY, [
+          this.mode,
+          this.header.getTime()
+        ]);
       }
     }
   }

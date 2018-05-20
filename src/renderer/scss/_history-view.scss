@@ -1,0 +1,125 @@
+@import "colors";
+@import "view-header";
+
+.history-view {
+  margin: 0 auto;
+  width: 480px;
+  transition: all .5s;
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+// ==============================================
+// HistoryView Header
+// ==============================================
+.history-view-header {
+  @extend %view-header;
+}
+
+.history-view-header-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+// ==============================================
+// History View Body
+// ==============================================
+.history-view-body {
+  padding: 20px;
+}
+
+.history-view-body-modes {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  button {
+    flex: 1;
+    padding: 5px;
+    text-transform: uppercase;
+    color: white;
+    background: none;
+    border: 1px solid #333;
+    outline: none;
+    cursor: pointer;
+    transition: all .5s ease-in-out;
+  }
+
+  button:first-of-type {
+  }
+
+  button:last-of-type {
+  }
+}
+
+@each $mode, $color in (easy, #01FF70),
+        (normal, #7FDBFF),
+        (hard, #FFDC00),
+        (insane, #FF4136) {
+  $transparent-color: transparentize($color, .4);
+
+  button.history-view-body-modes-#{$mode} {
+    color: $color;
+    &:hover { border-color: $transparent-color; }
+    &.active {
+      color: white;
+      border-color: $transparent-color;
+      background: $transparent-color;
+    }
+  }
+}
+
+
+.history-view-data {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #333;
+  text-align: center;
+
+  thead tr {
+    background: #222;
+  }
+
+  thead th {
+    padding: 10px;
+    border: 1px solid #333;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 10px;
+    border: 1px solid #333;
+    color: #ccc;
+  }
+}
+
+
+// Pagination
+.history-view-data-pagination { margin-top: 20px; }
+.paginationjs-pages {
+  ul {
+    display: flex;
+    list-style: none;
+  }
+  li { margin: 0 10px; }
+  a {
+    display: block;
+    padding: 5px 10px;
+    color: white;
+    border: 1px solid #333;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+  }
+  a:hover { background: white; color: black; }
+
+  li.active a,
+  li.disabled a {
+    border-color: transparent;
+    color: white;
+    background: transparent;
+  }
+}
+

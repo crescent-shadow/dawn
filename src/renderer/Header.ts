@@ -6,6 +6,8 @@ import * as $ from 'jquery';
 import { HomeButton } from './HomeButton';
 import { RestartButton } from './RestartButton';
 import { IMode } from './typings/mode.interface';
+import { HistoryButton } from './HistoryButton';
+
 
 export class Header {
   public canvas: JQuery<Element>;
@@ -13,6 +15,7 @@ export class Header {
   private headerContainerClassName: string = 'header-container';
   private homeButton: HomeButton;
   private restartButton: RestartButton;
+  private historyButton: HistoryButton;
 
   constructor() {
     const canvas: JQuery<Element> = $('<header>');
@@ -40,9 +43,11 @@ export class Header {
 
     this.homeButton = new HomeButton();
     this.restartButton = new RestartButton();
+    this.historyButton = new HistoryButton();
     container
       .append(this.homeButton.canvas)
-      .append(this.restartButton.canvas);
+      .append(this.restartButton.canvas)
+      .append(this.historyButton.canvas);
 
     return container;
   }

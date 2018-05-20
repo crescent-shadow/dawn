@@ -82,6 +82,10 @@ export class GridViewHeader {
       .html(found.toString());
   }
 
+  public getTime(): number {
+    return this.timer.value;
+  }
+
   private generateSuccessNode(): void {
     const container: JQuery<Element> = $('<div>')
       .addClass('grid-view-header-success-container');

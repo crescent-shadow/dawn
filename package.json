@@ -48,9 +48,11 @@
   },
   "dependencies": {
     "animejs": "^2.2.0",
+    "dexie": "^2.0.3",
     "feather-icons": "^4.5.0",
     "howler": "^2.0.9",
     "jquery": "^3.2.1",
+    "moment": "^2.22.1",
     "source-map-support": "^0.5.4"
   }
 }

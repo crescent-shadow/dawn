@@ -1,15 +1,15 @@
 /**
- * @fileOverview ModeViewHeader 模式视图的头部
+ * @fileOverview HistoryViewHeader
  */
 
 import * as $ from 'jquery';
 import anime = require('animejs');
 
-export class ModeViewHeader {
+export class HistoryViewHeader {
   public canvas: JQuery<Element>;
   private commonClassName: string = 'view-header';
-  private specificClassName: string = 'mode-view-header';
-  private titleClassName: string = 'mode-view-header-title';
+  private specificClassName: string = 'history-view-header';
+  private titleClassName: string = 'history-view-header-title';
 
   constructor() {
     // 生成画布
@@ -28,8 +28,6 @@ export class ModeViewHeader {
    * @description 执行动画
    */
   public doMotion(): void {
-
-    // 执行 Title 的动画
     this.doTitleMotion();
   }
 
@@ -44,7 +42,7 @@ export class ModeViewHeader {
       .addClass(this.titleClassName)
 
       // 设置 Title 节点的文本
-      .text('select mode');
+      .text('History');
   }
 
   /**
@@ -59,3 +57,4 @@ export class ModeViewHeader {
     });
   }
 }
+

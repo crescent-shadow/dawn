@@ -3223,6 +3223,10 @@ detective@^4.0.0:
     acorn "^5.2.1"
     defined "^1.0.0"
 
+dexie@^2.0.3:
+  version "2.0.3"
+  resolved "http://registry.npm.taobao.org/dexie/download/dexie-2.0.3.tgz#c32db3e8c7d43ac509379ad126f125c57a0e7c9c"
+
 di@^0.0.1:
   version "0.0.1"
   resolved "http://registry.npm.taobao.org/di/download/di-0.0.1.tgz#806649326ceaa7caa3306d75d985ea2748ba913c"
@@ -6490,6 +6494,10 @@ module-deps@^4.0.8:
     subarg "^1.0.0"
     through2 "^2.0.0"
     xtend "^4.0.0"
+
+moment@^2.22.1:
+  version "2.22.1"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 
 move-concurrently@^1.0.1:
   version "1.0.1"

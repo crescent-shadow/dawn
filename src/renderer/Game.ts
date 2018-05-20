@@ -10,6 +10,8 @@ import { Header } from './Header';
 import { ModeView } from './ModeView';
 import { IMode } from './typings/mode.interface';
 import { Boss } from './Boss';
+import { db } from './History.db';
+import { HistoryView } from './HistoryView';
 
 export class Game {
   // 每个类都具有的公开属性 canvas
@@ -18,6 +20,7 @@ export class Game {
   private header: Header;
   private modeView: ModeView;
   private gridView: GridView;
+  private historyView: HistoryView;
 
   // 声效资源引用和实例化
   private sfxVictoryPath: string = require('./assets/audios/victory.mp3');
@@ -69,8 +72,15 @@ export class Game {
       .on(Events.GAME_START, (event: JQuery.Event, mode: IMode) => {
         this.start(event, mode);
       })
-      .on(Events.GAME_VICTORY, () => this.victory())
-      .on(Events.GAME_DEFEAT, () => this.defeat());
+      .on(Events.GAME_VICTORY, (event: JQuery.Event, mode: IMode, time: number) => {
+        this.victory(mode, time);
+      })
+      .on(Events.GAME_DEFEAT, () => {
+        this.defeat();
+      })
+      .on(Events.GAME_HISTORY, () => {
+        this.showHistory();
+      });
   }
 
   /**
@@ -81,6 +91,7 @@ export class Game {
   private selectMode(): void {
     this.deactivateModeView();
     this.deactivateGridView();
+    this.deactivateHistoryView();
     this.activateModeView();
 
     // 禁用 Header 的 Restart 按钮
@@ -90,7 +101,7 @@ export class Game {
   /**
    * @description 开始游戏
    *
-   * 同样在激活 Grid 视图之前需要先销毁可能存在的 Mode 视图和 Grid 视图
+   * 激活 Grid 视图之前需要先销毁可能存在的 Mode 视图和 Grid 视图
    *
    * @param {JQuery.Event} event
    * @param {IMode} mode
@@ -98,6 +109,7 @@ export class Game {
   private start(event: JQuery.Event, mode: IMode): void {
     this.deactivateModeView();
     this.deactivateGridView();
+    this.deactivateHistoryView();
     this.activateGridView(mode);
 
     // 激活 Header 区域的 Restart 按钮
@@ -105,6 +117,18 @@ export class Game {
 
     // 告诉 Boss 当前游戏的信息
     this.boss.know(this.gridView.expose());
+  }
+
+  /**
+   * @description 显示游戏历史视图
+   */
+  private showHistory(): void {
+    this.deactivateModeView();
+    this.deactivateGridView();
+    this.deactivateHistoryView();
+    this.activateHistoryView();
+
+    this.header.deactivateRestartButton();
   }
 
   /**
@@ -155,6 +179,20 @@ export class Game {
     }
   }
 
+  private activateHistoryView(): void {
+    this.historyView = new HistoryView();
+
+    this.canvas.append(this.historyView.canvas);
+
+    this.historyView.render();
+  }
+
+  private deactivateHistoryView(): void {
+    if (this.historyView) {
+      this.historyView.destroy();
+    }
+  }
+
   /**
    * @description 游戏失败
    */
@@ -169,11 +207,19 @@ export class Game {
   /**
    * @description 游戏胜利
    */
-  private victory(): void {
+  private async victory(mode: IMode, time: number): Promise<void> {
     // 播放音效
     this.sfxVictory.play();
 
     // 冻结 Grid 视图，禁止玩家对 Grid 视图再做操作
     this.gridView.freeze(true);
+
+    await db.transaction('rw', db.histories, async function () {
+      await db.histories.add({
+        mode: mode,
+        time: time,
+        created_at: new Date()
+      });
+    });
   }
 }

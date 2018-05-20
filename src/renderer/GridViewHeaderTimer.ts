@@ -5,7 +5,7 @@
 import * as $ from 'jquery';
 
 export class GridViewHeaderTimer {
-  public value: number = 0;
+  private _value: number = 0;
   public canvas: JQuery<Element>;
   private canvasClassName: string = 'timer';
   private timerId: number;
@@ -15,8 +15,12 @@ export class GridViewHeaderTimer {
       .addClass(this.canvasClassName);
   }
 
+  get value() {
+    return this._value;
+  }
+
   public reset(): void {
-    this.value = 0;
+    this._value = 0;
     this.stop();
     this.canvas.empty();
   }
@@ -26,12 +30,12 @@ export class GridViewHeaderTimer {
   }
 
   public tick(): void {
-    if (this.value >= Number.MAX_VALUE) {
+    if (this._value >= Number.MAX_VALUE) {
       this.canvas.html('--:--');
 
       return;
     }
-    this.value += 1;
+    this._value += 1;
     this.canvas.html(this.display());
     this.timerId = setTimeout(this.tick.bind(this), 1000);
   }
@@ -46,8 +50,8 @@ export class GridViewHeaderTimer {
         return `<span>${part}</span>`;
       }).join('');
     };
-    const m: number = Math.floor((this.value % 3600) / 60);
-    const s: number = Math.max(Math.floor((this.value % 3600) % 60), 0);
+    const m: number = Math.floor((this._value % 3600) / 60);
+    const s: number = Math.max(Math.floor((this._value % 3600) % 60), 0);
     const minutes: string = spanWrap(zeroPadding(m));
     const seconds: string = spanWrap(zeroPadding(s));
 
