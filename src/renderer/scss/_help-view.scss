@@ -1,0 +1,82 @@
+@import "colors";
+@import "view-header";
+@import "view-table";
+
+.help-view {
+  margin: 0 auto;
+  width: 420px;
+  transition: all .5s;
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+// ==============================================
+// View Header
+// ==============================================
+.help-view-header {
+  @extend %view-header;
+}
+
+.help-view-header-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+// ==============================================
+// View Body
+// ==============================================
+.help-view-body {
+  padding: 20px;
+}
+
+.help-view-body table {
+  @extend %view-body-table;
+}
+
+.help-view-description {
+  text-align: left;
+}
+
+.help-view-content-mode { font-size: 10px; }
+.help-view-content-mode-easy { color: #01FF70; }
+.help-view-content-mode-normal { color: #7FDBFF; }
+.help-view-content-mode-hard { color: #FFDC00; }
+.help-view-content-mode-insane { color: #FF4136; }
+
+%cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  user-select: none;
+  svg { stroke: black; height: 14px; }
+}
+
+
+.help-view-content-cell {
+  @extend %cell;
+  background: #7FDBFF;
+}
+
+.help-view-content-cell-reveal {
+  @extend %cell;
+  background: #787878;
+}
+
+.help-view-content-cell-flag {
+  @extend %cell;
+  background: #FFDB00;
+}
+
+.help-view-content-cell-mine {
+  @extend %cell;
+  background: #FF5975;
+}
+
+.help-view-content-cell-mine-flag {
+  @extend %cell;
+  background: #01FF70;
+}

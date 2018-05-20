@@ -18,13 +18,13 @@ header {
 // ==============================================
 .button-restart,
 .button-home,
-.button-history {
+.button-history,
+.button-help {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   padding: 4px 10px;
-  width: 90px;
-  color: #ffffff;
+  color: white;
   border: none;
   background: transparent;
   cursor: pointer;

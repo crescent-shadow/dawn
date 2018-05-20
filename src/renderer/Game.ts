@@ -12,6 +12,7 @@ import { IMode } from './typings/mode.interface';
 import { Boss } from './Boss';
 import { db } from './History.db';
 import { HistoryView } from './HistoryView';
+import { HelpView } from './HelpView';
 
 export class Game {
   // 每个类都具有的公开属性 canvas
@@ -21,6 +22,7 @@ export class Game {
   private modeView: ModeView;
   private gridView: GridView;
   private historyView: HistoryView;
+  private helpView: HelpView;
 
   // 声效资源引用和实例化
   private sfxVictoryPath: string = require('./assets/audios/victory.mp3');
@@ -58,6 +60,8 @@ export class Game {
    * 2. GAME_START
    * 3. GAME_VICTORY
    * 4. GAME_DEFEAT
+   * 5. GAME_HISTORY
+   * 6. GAME_HELP
    *
    * 此函数用于指定说当事件发生时，需要调用哪个函数进行处理。
    * 比如 GAME_SELECT_MODE 事件触发时，调用 selectMode 函数
@@ -80,6 +84,9 @@ export class Game {
       })
       .on(Events.GAME_HISTORY, () => {
         this.showHistory();
+      })
+      .on(Events.GAME_HELP, () => {
+        this.showHelp();
       });
   }
 
@@ -92,6 +99,7 @@ export class Game {
     this.deactivateModeView();
     this.deactivateGridView();
     this.deactivateHistoryView();
+    this.deactivateHelpView();
     this.activateModeView();
 
     // 禁用 Header 的 Restart 按钮
@@ -110,6 +118,7 @@ export class Game {
     this.deactivateModeView();
     this.deactivateGridView();
     this.deactivateHistoryView();
+    this.deactivateHelpView();
     this.activateGridView(mode);
 
     // 激活 Header 区域的 Restart 按钮
@@ -126,7 +135,18 @@ export class Game {
     this.deactivateModeView();
     this.deactivateGridView();
     this.deactivateHistoryView();
+    this.deactivateHelpView();
     this.activateHistoryView();
+
+    this.header.deactivateRestartButton();
+  }
+
+  private showHelp(): void {
+    this.deactivateModeView();
+    this.deactivateGridView();
+    this.deactivateHistoryView();
+    this.deactivateHelpView();
+    this.activateHelpView();
 
     this.header.deactivateRestartButton();
   }
@@ -190,6 +210,18 @@ export class Game {
   private deactivateHistoryView(): void {
     if (this.historyView) {
       this.historyView.destroy();
+    }
+  }
+
+  private activateHelpView(): void {
+    this.helpView = new HelpView();
+    this.canvas.append(this.helpView.canvas);
+    this.helpView.render();
+  }
+
+  private deactivateHelpView(): void {
+    if (this.helpView) {
+      this.helpView.destroy();
     }
   }
 

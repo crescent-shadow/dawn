@@ -1,5 +1,6 @@
 @import "colors";
 @import "view-header";
+@import "view-table";
 
 .history-view {
   margin: 0 auto;
@@ -46,12 +47,6 @@
     cursor: pointer;
     transition: all .5s ease-in-out;
   }
-
-  button:first-of-type {
-  }
-
-  button:last-of-type {
-  }
 }
 
 @each $mode, $color in (easy, #01FF70),
@@ -73,27 +68,7 @@
 
 
 .history-view-data {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #333;
-  text-align: center;
-
-  thead tr {
-    background: #222;
-  }
-
-  thead th {
-    padding: 10px;
-    border: 1px solid #333;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  td {
-    padding: 10px;
-    border: 1px solid #333;
-    color: #ccc;
-  }
+  @extend %view-body-table;
 }
 
 

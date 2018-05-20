@@ -1,0 +1,23 @@
+%view-body-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #333;
+  text-align: center;
+
+  thead tr {
+    background: #222;
+  }
+
+  thead th {
+    padding: 10px;
+    border: 1px solid #333;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 10px;
+    border: 1px solid #333;
+    color: #ccc;
+  }
+}

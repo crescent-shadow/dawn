@@ -7,6 +7,7 @@ import { HomeButton } from './HomeButton';
 import { RestartButton } from './RestartButton';
 import { IMode } from './typings/mode.interface';
 import { HistoryButton } from './HistoryButton';
+import { HelpButton } from './HelpButton';
 
 
 export class Header {
@@ -16,6 +17,7 @@ export class Header {
   private homeButton: HomeButton;
   private restartButton: RestartButton;
   private historyButton: HistoryButton;
+  private helpButton: HelpButton;
 
   constructor() {
     const canvas: JQuery<Element> = $('<header>');
@@ -44,10 +46,12 @@ export class Header {
     this.homeButton = new HomeButton();
     this.restartButton = new RestartButton();
     this.historyButton = new HistoryButton();
+    this.helpButton = new HelpButton();
     container
       .append(this.homeButton.canvas)
       .append(this.restartButton.canvas)
-      .append(this.historyButton.canvas);
+      .append(this.historyButton.canvas)
+      .append(this.helpButton.canvas);
 
     return container;
   }

@@ -60,7 +60,7 @@ export class HistoryViewBody {
     const tableHeader = $(`<thead>
       <tr>
         <th>Rank</th>
-        <th>Spent</th>
+        <th>Time Spent</th>
         <th>Played At</th>
       </tr>
     </thead>`);
